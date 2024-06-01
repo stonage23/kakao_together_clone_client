@@ -1,0 +1,71 @@
+const { default: styled } = require("styled-components");
+
+export const CardWrapper = styled.div`
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+`;
+
+export const CardInner = styled.div`
+    display: flex;
+    height: 100%;
+    width: 100%;
+    
+    cursor: pointer;
+
+    .card_title {
+        font-size: 16px;
+        line-height: 1.5;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        color: rgb(68, 68, 68)
+
+    }
+
+    .card_subtext {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .card_inner {
+        display: flex;
+        height: 100%;
+        color: rgb(32, 32, 32);
+    }
+
+    .card_thumbnail {
+        height: 100%; 
+        width: 280px;
+        background-color: var(--image-blank-color); 
+        border-radius: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .card_content {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-sizing: border-box;
+        flex: 1 1 0px;
+    }
+
+    @media only screen and (min-width: 758px) {
+        
+
+        .card_title {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+        }
+
+        & .thumbnail {
+            width: 280px;
+        }
+    }   
+`;

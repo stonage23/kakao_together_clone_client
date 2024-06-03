@@ -58,6 +58,7 @@ export const MainLogo = styled.div`
   `;
 
   export const Navigation = styled.nav`
+    flex: 1 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -117,20 +118,72 @@ export const UserActions = styled.div`
   }
 `;
 
-export const UserProfileWrapper = styled.div`
-    align-items: center;
-    justify-content: center;
+export const UserProfileLinkWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 
-export const UserActionLink = styled.div`
-    height: 24px;
-    width: 24px;
-    background-size: cover;
-    border-radius: 10px;
+export const UserProfileLink = styled.div`
+    
+  display: inline-block;
+`
+    
+export const UserProfileImageWrapper = styled.div`
 
-    ${({bgUrl}) => css`
-      
-      background: url(${bgUrl});
-    `}
+  height: 24px;
+  width: 24px;
+
+  -webkit-mask-image: url(${images.squircle});
+  mask-image: url(${images.squircle});
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+`;
+
+export const UserProfileImage = styled.div`
+  width: 100%;
+  height: 100%;
+
+  ${({bgUrl}) => css`
+  background: url(${bgUrl});
+  `}
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
+
+export const SearchLinkWapper = styled.div`
+  
+  margin: 0px 11px 0px 19px;
+  padding: 8px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & .icon {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+/**
+ * @description Button 컴포넌트
+ */
+export const SideMenuButtonWrapper = styled.div`
+  
+  padding: 8px;
+
+  & .icon {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const Overlay = styled.div`
+    
+`;
+
+export const SideMenu = styled.div`
+    
 `;

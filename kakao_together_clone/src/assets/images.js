@@ -1,7 +1,10 @@
+const baseUrl = `${process.env.PUBLIC_URL}/assets/images`;
+
 const images = {
-    mainLogo: `${process.env.PUBLIC_URL}/assets/images/logo/logo_main.svg`,
-    avatar: `${process.env.PUBLIC_URL}/assets/images/avatar/avatar.png`,
-    avatarLogin: `${process.env.PUBLIC_URL}/assets/images/avatar/avatar_login_default.png`,
+    mainLogo: baseUrl + '/logo/logo_main.svg',
+    avatar: baseUrl + '/avatar/avatar.png',
+    avatarLogin: baseUrl + '/avatar/avatar_login_default.png',
+    squircle: baseUrl + '/svg/squircle.svg',
 }
 
 export default images;

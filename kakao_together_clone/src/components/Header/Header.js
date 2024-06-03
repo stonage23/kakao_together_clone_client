@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as S from './Styled';
 import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaRegUser, FaSearch } from 'react-icons/fa';
+import { FaBars, FaSearch } from 'react-icons/fa';
 import images from 'assets/images';
+import { useLoginState } from 'contexts/LoginContext';
 
 const menuItems = [
   { path: '/', label: '홈' },
@@ -13,30 +14,32 @@ const menuItems = [
   { path: '/campaign', label: '캠페인' },
 ];
 
-const context = {
-  isLoggedIn: true,
-}
-
-const getAvatarUrl = () => {
-
-  if (context.isLoggedIn) return images.avatarLogin;
-
-  return images.avatar;
-}
 
 /**
  * 
  * @returns 
- */
+*/
 export default function Header() {
-
+  
+  const [isSideMenuOpen, setSideMenuOpen] = useState(false);
+  const { isLoggedIn, login, logout } = useLoginState();
+  const [avatarUrl, setAvatarUrl] = useState('');
   const location = useLocation();
   const currentPath = location.pathname;
-  const path = `${process.env.PUBLIC_URL}/`
+
+  
+  const toggleSideMenu = () => {
+    setSideMenuOpen(!isSideMenuOpen);
+  }
+  
 
   useEffect(() => {
-    
-  }, []);
+    const getAvatarUrl = () => {
+      return isLoggedIn ? images.avatarLogin : images.avatar;
+    };
+
+    setAvatarUrl(getAvatarUrl());
+  }, [isLoggedIn]);
 
   return (
     <S.Header id='header'>
@@ -52,13 +55,37 @@ export default function Header() {
               </S.MenuItem>
             ))}
           </S.Menus>
+          <button onClick={login}>로그인</button>
+          <button onClick={logout}>로그아웃</button>
+          <div>{isLoggedIn ? '로그인' : '로그아웃'}</div>
         </S.Navigation>
-        <S.UserActionLink bgUrl={getAvatarUrl()} as={Link} to={"#"} />
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50">
-<path d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z"></path>
-</svg>
-        <FaBars className="icon" />
+        <S.UserProfileLinkWrapper>
+          <S.UserProfileLink as={Link} to={"/UserProfile_hardcoding"}>
+            <S.UserProfileImageWrapper>
+              <S.UserProfileImage as='img' bgUrl={avatarUrl}/>
+            </S.UserProfileImageWrapper>
+          </S.UserProfileLink>
+        </S.UserProfileLinkWrapper>
+        <S.SearchLinkWapper as={Link} to='/search_hardcoding'>
+          <FaSearch className='icon' />
+        </S.SearchLinkWapper>
+        <S.SideMenuButtonWrapper as='button' onClick={toggleSideMenu}>
+          <FaBars className="icon" />
+        </S.SideMenuButtonWrapper>
       </S.HeaderInner>
+      <S.Overlay />
+      <S.SideMenu isOpen={isSideMenuOpen}>
+        <div>
+          <h2>로그인하세요</h2>
+          <ul>
+            <li>같이기부</li>
+            <li>모두의행둥</li>
+            <li>마음날씨</li>
+            <li>캠페인</li>
+            {/* 추가 메뉴 항목 */}
+          </ul>
+        </div>
+      </S.SideMenu>
     </S.Header>
   )
 }

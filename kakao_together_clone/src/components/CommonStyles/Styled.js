@@ -63,3 +63,17 @@ export const ExternalHyperlink = styled.a`
     font: inherit;
     color: inherit;
 `;
+
+/**
+ * 브라우저에는 보이지 않지만 DOM에는 생성되는 label 요소
+ * @description 사용하고자 하는 태그로 변환(as)하여 사용
+ */
+export const HiddenLabelTag = styled.div`
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0px, 0px, 0px, 0px);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    color: transparent;
+`;

@@ -181,9 +181,28 @@ export const SideMenuButtonWrapper = styled.div`
 `;
 
 export const Overlay = styled.div`
-    
-`;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  display: flex;
+  justify-content: flex-end;
+  
+  &.open {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    visibility: visible;
+    z-index: 999;
+  }
 
-export const SideMenu = styled.div`
-    
+  & .drawer_container {
+    min-width: 300px;
+    max-width: 300px;
+    padding: 30px;
+  }
 `;

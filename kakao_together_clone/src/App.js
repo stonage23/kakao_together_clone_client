@@ -4,18 +4,18 @@ import { ThemeProvider } from 'styled-components';
 import Router from './Router';
 import GolobalStyles from 'GlobalStyles';
 import Theme from 'styles/Theme';
-import { LoginStateProvider } from 'contexts/LoginContext';
+import { UserProvider } from 'contexts/UserContext';
 
 function App() {
   return (
     <BrowserRouter>
       <GolobalStyles />
-      <LoginStateProvider>
+      <UserProvider>
         <ThemeProvider theme={Theme}>
           {/* <MainPage /> */}
           <Router />
         </ThemeProvider>
-      </LoginStateProvider>
+      </UserProvider>
     </BrowserRouter>
   );
 }

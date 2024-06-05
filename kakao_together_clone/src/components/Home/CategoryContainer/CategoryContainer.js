@@ -33,7 +33,6 @@ const CategoryContainer = ({ category, fundraising, ...rest }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [campaignCache, setCampaignCache] = useState({});
 
-
   useEffect(() => {
 
     const initializeTagData = async () => {
@@ -54,6 +53,7 @@ const CategoryContainer = ({ category, fundraising, ...rest }) => {
   }, []);
 
   const handleTagClick = async (tagId, index) => {
+
     try {
       const result = await handleCache(tagId, campaignCache, () => fetchCampaignsByTag(tagId));
       setCampaignCache(prevCache => ({ ...prevCache, [tagId]: result }));
@@ -61,10 +61,12 @@ const CategoryContainer = ({ category, fundraising, ...rest }) => {
     } catch (error) {
       console.error('handleTagClick failed:', error);
     }
+
     setActiveIndex(index);
   };
 
   const renderByCategoryType = () => {
+
     const contentMap = {
       'last-donation': <LastDonorContainer fundraising={campaigns[0]} />,
       'top-donations': <TopDonationsContainer data={campaigns} />,
@@ -74,19 +76,14 @@ const CategoryContainer = ({ category, fundraising, ...rest }) => {
     return contentMap[category.type] || null;
   };
 
-  console.log(campaigns);
-  
-
   return (
     <>
       <CategoryTitle title={category.title} href={category.href}/>
-
       {category.subText && category.type !== 'tagged' && (
         <S.CategoryParagraph as='p'>
           {category.subText}
         </S.CategoryParagraph>
       )}
-
       {renderByCategoryType()}     
     </>
   );
@@ -113,28 +110,38 @@ const CategoryTitle = ({ title, href, ...rest }) => {
  */
 const LastDonorContainer = ({ fundraising }) => {
 
+  const [isExpired, setIsExpired] = useState();
+
+  useEffect(() => {
+    if (fundraising) {
+      const endDate = stringToDate(fundraising.endDate);
+      const timeDiff = calculateDiff(endDate);
+      setIsExpired(timeDiff <= 0);
+    }
+  }, [fundraising]);
+
   if (!fundraising) {
     return null;
   }
 
-  console.log("gkgkgk");
-  console.log(fundraising);
-
   const endDate = stringToDate(fundraising.endDate);
   const timeDiff = calculateDiff(endDate);
+  const classDisabled = isExpired ? 'disabled' : '';
+  const classHidden = isExpired ? 'hidden' : '';
 
   return (
     <S.CategorySingleContentContainer>
       <ImageCover>
-        <TimerContainer time={timeDiff} />
+        <TimerContainer time={timeDiff} className={classDisabled}/>
       </ImageCover>
-      <Fundraising fundraising={fundraising} row />
-      <ActionButtons />
+      <Fundraising fundraising={fundraising} className={classDisabled} row />
+      <ActionButtons className={classHidden}/>
     </S.CategorySingleContentContainer>
   );
 };
 
 const TopDonationsContainer = ({ data }) => (
+
   <S.CategoryMultipleContentContainer>
     {data && data.map(fundraising => (
       <Fundraising key={fundraising.id} fundraising={fundraising} column />
@@ -143,6 +150,7 @@ const TopDonationsContainer = ({ data }) => (
 );
 
 const TaggedContainer = ({ activeIndex, setActiveIndex, tags, data }) => (
+
   <>
     <S.Tablist>
       {tags && tags.map((tag, index) => (
@@ -160,8 +168,9 @@ const TaggedContainer = ({ activeIndex, setActiveIndex, tags, data }) => (
   </>
 );
 
-const ActionButtons = () => (
-  <S.CampaignActionContainer>
+const ActionButtons = ({className}) => (
+
+  <S.CampaignActionContainer className={className}>
     <Button color='#c9c9c9'><CiHeart /> 하트응원</Button>
     <Button color='#c9c9c9'>기부하기</Button>
   </S.CampaignActionContainer>

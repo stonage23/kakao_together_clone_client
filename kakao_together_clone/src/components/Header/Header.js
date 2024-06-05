@@ -1,44 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import * as S from './Styled';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, matchPath, useLocation, useMatch } from 'react-router-dom';
 import { FaBars, FaSearch } from 'react-icons/fa';
 import images from 'assets/images';
 import { SideMenu } from './SideMenu';
 import { MaskingImage } from 'components/MaskingImage';
 import { useUserContext } from 'contexts/UserContext';
+import { useLocationContext } from 'contexts/LocationContext';
 
-const menuItems = [
-  { path: '/', label: '홈' },
-  { path: '/donate', label: '매달기부' },
-  { path: '/about', label: '같이기부' },
-  { path: '/contact', label: '모두의행둥' },
-  { path: '/gallery', label: '마음날씨' },
-  { path: '/campaign', label: '캠페인' },
+const navItems = [
+  { path: '/', label: '홈', matchPatterns: ['/'] },
+  { path: '/fundraisings/regular-donations', label: '매달기부', matchPatterns: ['/fundraisings/regular-donations'] },
+  { path: '/fundraisings/now', label: '같이기부', matchPatterns: ['/fundraisings/now', '/fundraisings/:id/story'] },
+  { path: '/actions/projects', label: '모두의행둥', matchPatterns: ['/actions'] },
+  { path: '/hello', label: '마음날씨', matchPatterns: ['/hello'] },
+  { path: '/boards/campaigns', label: '캠페인', matchPatterns: ['/boards'] },
 ];
 
-
-/**
- * 
- * @returns 
-*/
 export default function Header() {
-  
-  const [isSideMenuOpen, setSideMenuOpen] = useState(false);
+
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const { user, login, logout } = useUserContext();
   const [avatarUrl, setAvatarUrl] = useState('');
-  const location = useLocation();
-  const currentPath = location.pathname;
+  const {pathname: currentPath} = useLocationContext();
 
-  
+  const userProfileImg = <MaskingImage maskUrl={images.squircle} imgUrl={avatarUrl} />;
+
   const toggleSideMenu = () => {
-    setSideMenuOpen(!isSideMenuOpen);
+    setIsSideMenuOpen(!isSideMenuOpen);
   }
   
-  const closeMenu = () => {
-    setSideMenuOpen(false);
+  const closeSideMenu = () => {
+    setIsSideMenuOpen(false);
   };
-  
-  const userProfileImg = <MaskingImage maskUrl={images.squircle} imgUrl={avatarUrl} />;
   
   useEffect(() => {
     const getAvatarUrl = () => {
@@ -52,6 +46,22 @@ export default function Header() {
     document.body.style.overflow = isSideMenuOpen ? 'hidden' : 'auto';
   }, [isSideMenuOpen])
 
+  const checkIsActive = (item) => {
+
+    const isActive = item.matchPatterns.some(pattern => matchPath({ path: pattern, end: true }, currentPath));
+    return isActive;
+  }
+
+  const renderMenuItem = () => {
+    return navItems.map(item => {
+      return (
+      <S.MenuItem as='li' key={item.path} href={item.path} isActive={checkIsActive(item)}>
+        <S.Link as={Link} to={item.path}>{item.label}</S.Link>
+      </S.MenuItem>
+      )
+    })
+  }
+
   return (
     <S.Header id='header'>
       <S.HeaderInner>
@@ -60,11 +70,7 @@ export default function Header() {
         </S.MainLogo>
         <S.Navigation id='navigation'>
           <S.Menus as='ul'>
-            {menuItems.map(item => (
-              <S.MenuItem as='li' key={item.path} href={item.path} isActive={currentPath === item.path}>
-                <S.Link as={Link} to={item.path}>{item.label}</S.Link>
-              </S.MenuItem>
-            ))}
+            {renderMenuItem()}
           </S.Menus>
           <button onClick={login}>로그인</button>
           <button onClick={logout}>로그아웃</button>
@@ -82,7 +88,7 @@ export default function Header() {
           <FaBars className="icon" />
         </S.SideMenuButtonWrapper>
       </S.HeaderInner>
-      <S.Overlay className={isSideMenuOpen ? 'open' : 'close'} onClick={closeMenu}>
+      <S.Overlay className={isSideMenuOpen ? 'open' : 'close'} onClick={closeSideMenu}>
         <SideMenu isSideMenuOpen={isSideMenuOpen} userProfileImg={userProfileImg} />
       </S.Overlay>
     </S.Header>

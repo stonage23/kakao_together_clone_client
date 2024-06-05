@@ -53,21 +53,29 @@ const ddt = {
             id: 1,
             title: "나의 나르시시즘 레벨은?",
             count: 244330,
+            thumbnail: 'assets/images/hello/img_a_1.png',
+            image: []
         },
         {
             id: 2,
             title: "나는 어떤 꽃일까?",
             count: 263828,
+            thumbnail: 'assets/images/hello/img_a_2.png',
+            image: []
         },
         {
             id: 3,
             title: "나랑 가장 닮은 강아지는?",
             count: 142321,
+            thumbnail: 'assets/images/hello/img_a_3.png',
+            image: []
         },
         {
             id: 4,
             title: "세상을 보는 나의 눈",
             count: 196881,
+            thumbnail: 'assets/images/hello/img_a_4.png',
+            image: []
         },
     ]
 };
@@ -80,7 +88,12 @@ function MindWether() {
         <ul>
             {ddt.d1.map(card => 
                 <li className='mind_item'>
-                    <Card key={card.id} title={card.title} subtext={card.count + "명 참여"} href={`hello/${card.id}/story`}> 
+                    <Card 
+                        key={card.id} 
+                        title={card.title} 
+                        subtext={card.count + "명 참여"} 
+                        href={`hello/${card.id}/story`}
+                        thumbnail={card.thumbnail}> 
                         
                     </Card>
                 </li>

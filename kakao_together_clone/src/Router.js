@@ -12,19 +12,13 @@ export const Router = () => {
                 }
             />
             <Route
-                path="/fundraisings/now"
+                path="/fundraisings/*"
                 element={
                     <FundraisingsPage />
                 }
             />
             <Route
-                path="/fundraisings/:campaignId/story"
-                element={
-                    <FundraisingStoryPage />
-                }
-            />
-            <Route
-                path="/hello/:helloId/story"
+                path="/hello/:helloId/story/*"
                 element={
                     <FundraisingStoryPage />
                 }

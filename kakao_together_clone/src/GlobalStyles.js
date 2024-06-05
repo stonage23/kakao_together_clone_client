@@ -80,6 +80,15 @@ const GolobalStyles = createGlobalStyle`
         outline: none;
     }
 
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .hidden {
+        display: none;
+    }
+
 
 @font-face {
   font-family: "KakaoBold";

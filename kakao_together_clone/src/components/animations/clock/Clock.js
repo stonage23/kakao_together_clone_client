@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 // 시계 바늘 회전 애니메이션 정의
 const rotateAnimation = keyframes`
@@ -29,18 +29,29 @@ const ClockHand = styled.div`
   width: ${clockHandWidth}px;
   height: ${clockHandHeight}px;
   background-color: white;
-  transform-origin: 50% 100%;  // 회전 축 설정
-  animation: ${rotateAnimation} 3s linear infinite;  // 애니메이션 적용
+
+  ${({state}) => {
+    if (state === 'go') {
+      return css`
+        transform-origin: 50% 100%;  // 회전 축 설정
+        animation: ${rotateAnimation} 3s linear infinite;  // 애니메이션 적용
+        `;
+    } else if (state === 'stop') {
+      return css`
+        transform-origin: 50% 100%;  // 회전 축 설정
+      `;
+  }
+  }}
 
   position: absolute;
   left: ${faceRadius/2 - clockHandWidth/2}px;
   top: ${faceRadius/2 - clockHandHeight}px;
 `;
 
-function Clock() {
+function Clock({state}) {
   return (
     <ClockFace>
-      <ClockHand />
+      <ClockHand state={state} />
     </ClockFace>
   );
 }

@@ -7,7 +7,7 @@ import Clock from 'components/animations/clock/Clock';
  * @param {Object} props - 컴포넌트의 props
  * @param {number} props.time - 표시할 시간(밀리세컨드) 
  */
-function TimerContainer({time: initialTime}) {
+function TimerContainer({time: initialTime, className}) {
 
   const [currentTimeLeft, setCurrentTimeLeft] = useState(initialTime);
 
@@ -20,8 +20,8 @@ function TimerContainer({time: initialTime}) {
   }, []);
 
   return (
-    <S.TimerContainer>
-      <Clock />
+    <S.TimerContainer className={className}>
+      <Clock state={currentTimeLeft !== 0 ? 'go' : 'stop'}/>
       <TimeDisplay time={currentTimeLeft} separator=":" />
     </S.TimerContainer>
   )

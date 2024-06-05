@@ -139,7 +139,7 @@ export const CategoryMultipleContentContainer = styled(CategoryDefaultContentCon
     }
 
     & .card_thumbnail {
-        background-color: var(--image-blank-color); /* 예시 배경색, 실제 이미지에 맞게 조정 필요 */
+        width: 100%;
         border-radius: 8px;
         position: relative;
         height: 0px;

@@ -39,11 +39,24 @@ export const CardInner = styled.div`
     }
 
     .card_thumbnail {
+        position: relative;
         height: 100%; 
         width: 280px;
         background-color: var(--image-blank-color); 
         border-radius: 0.5rem;
         flex-shrink: 0;
+    }
+
+    .card_thumbnail::after {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-image: url(${({thumbnail}) => thumbnail ? require(`${thumbnail}`) : ''});
+        background-image: url(${require("assets/images/hello/img_a_1.png")});
+        background-size: cover;
     }
 
     .card_content {

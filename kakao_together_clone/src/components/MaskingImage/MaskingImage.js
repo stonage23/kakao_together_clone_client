@@ -1,10 +1,10 @@
 import React from 'react'
 import * as S from './Styled';
 
-const MaskingImage = ({maskUrl, imgUrl}) => {
+const MaskingImage = ({maskurl, imgurl}) => {
   return (
-    <S.ImageMask className='mask' maskUrl={maskUrl}>
-        <S.Image className='img' as='img' imgUrl={imgUrl}/>
+    <S.ImageMask className='mask' maskurl={maskurl}>
+        <S.Image className='img' as='img' imgurl={imgurl}/>
     </S.ImageMask>
   )
 }

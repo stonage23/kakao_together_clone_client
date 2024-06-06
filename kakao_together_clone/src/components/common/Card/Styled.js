@@ -54,7 +54,6 @@ export const CardInner = styled.div`
         left: 0px;
         width: 100%;
         height: 100%;
-        background-image: url(${({thumbnail}) => thumbnail ? require(`${thumbnail}`) : ''});
         background-image: url(${require("assets/images/hello/img_a_1.png")});
         background-size: cover;
     }

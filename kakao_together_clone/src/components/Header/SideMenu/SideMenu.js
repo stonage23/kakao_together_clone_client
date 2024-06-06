@@ -53,7 +53,7 @@ const supportItems = [
 const SideMenu = ({isSideMenuOpen, userProfileImg}) => {
 
   const { user } = useUserContext();
-  console.log(user);
+  
   /**
    * 리스트 아이템을 렌더링하는 함수
    * @function 

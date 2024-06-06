@@ -90,8 +90,8 @@ export const Link = styled.div`
 `;
 
 export const MenuItem = styled.div`
-    ${({isActive}) => 
-    isActive && // huge라는 props가 존재하면 다음 css 적용
+    ${({isactive}) => 
+    isactive && // huge라는 props가 존재하면 다음 css 적용
     css `
          border-bottom: solid 1px black;
     `}

@@ -24,7 +24,7 @@ export default function Header() {
   const [avatarUrl, setAvatarUrl] = useState('');
   const {pathname: currentPath} = useLocationContext();
 
-  const userProfileImg = <MaskingImage maskUrl={images.squircle} imgUrl={avatarUrl} />;
+  const userProfileImg = <MaskingImage maskurl={images.squircle} imgurl={avatarUrl} />;
 
   const toggleSideMenu = () => {
     setIsSideMenuOpen(!isSideMenuOpen);
@@ -46,16 +46,16 @@ export default function Header() {
     document.body.style.overflow = isSideMenuOpen ? 'hidden' : 'auto';
   }, [isSideMenuOpen])
 
-  const checkIsActive = (item) => {
+  const checkisactive = (item) => {
 
-    const isActive = item.matchPatterns.some(pattern => matchPath({ path: pattern, end: true }, currentPath));
-    return isActive;
+    const isactive = item.matchPatterns.some(pattern => matchPath({ path: pattern, end: true }, currentPath));
+    return isactive;
   }
 
   const renderMenuItem = () => {
     return navItems.map(item => {
       return (
-      <S.MenuItem as='li' key={item.path} href={item.path} isActive={checkIsActive(item)}>
+      <S.MenuItem as='li' key={item.path} href={item.path} isactive={checkisactive(item)}>
         <S.Link as={Link} to={item.path}>{item.label}</S.Link>
       </S.MenuItem>
       )

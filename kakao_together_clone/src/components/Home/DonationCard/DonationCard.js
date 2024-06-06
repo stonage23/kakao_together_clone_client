@@ -1,7 +1,9 @@
 // DonationCard.js
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { A, ExternalHyperlink, P, Strong, Title } from 'components/CommonStyles/Styled';
+import { ExternalHyperlink, P, Strong, Title } from 'components/CommonStyles/Styled';
+import SliderComponent from 'components/common/Slider/SliderComponent';
+import { Link } from 'react-router-dom';
 
 
 const tdt = {
@@ -65,15 +67,25 @@ const TopLayout = styled.div`
     `;
 
   const BottomLayout = styled.div`
-      height: 300px;
+      height: 281px;
+      box-sizing: border-box;
       border-radius: 0px 0px 20px 20px;
-      
+      padding: 31px 26px 46px;
       background-color: var(--white-color);
+
+      a {
+        display: inline-block;
+      }
+
+      h4 {
+        font-size: 13px;
+      }
   `;
   
   const StyledA = styled(ExternalHyperlink)`
       display: block;
   `;
+
 
 
 
@@ -120,7 +132,12 @@ const DonationCard = () => {
         </StyledA>
       </TopLayout>
       <BottomLayout className="area_bottom">
-
+        <div>
+          <Link to='/hardcoding'>
+            <h4>따뜻한 후기</h4>
+          </Link>
+        </div>
+        <SliderComponent />
       </BottomLayout>
     </>
   );

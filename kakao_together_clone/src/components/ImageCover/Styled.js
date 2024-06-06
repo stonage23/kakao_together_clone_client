@@ -4,5 +4,5 @@ export const ImageCover = styled.div`
 
     position: absolute;
     top: 100px;
-    z-index: 1000;
+    z-index: 100;
 `;

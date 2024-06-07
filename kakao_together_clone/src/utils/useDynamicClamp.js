@@ -4,7 +4,6 @@ const useDynamicClamp = (title, content) => {
   const [lineClamp, setLineClamp] = useState(5);
   const titleRef = useRef(null);
 
-  console.log("useDynamicClamp 호출");
 
   useEffect(() => {
     const applyDynamicClamp = () => {
@@ -32,8 +31,6 @@ const useDynamicClamp = (title, content) => {
       window.removeEventListener('resize', applyDynamicClamp);
     };
   }, [title, content]);
-
-  console.log(lineClamp);
 
   return { lineClamp, titleRef };
 };

@@ -12,7 +12,7 @@ const navItems = [
   { path: '/', label: '홈', matchPatterns: ['/'] },
   { path: '/fundraisings/regular-donations', label: '매달기부', matchPatterns: ['/fundraisings/regular-donations'] },
   { path: '/fundraisings/now', label: '같이기부', matchPatterns: ['/fundraisings/now', '/fundraisings/:id/story'] },
-  { path: '/actions/projects', label: '모두의행둥', matchPatterns: ['/actions'] },
+  { path: '/actions/projects', label: '모두의행동', matchPatterns: ['/actions'] },
   { path: '/hello', label: '마음날씨', matchPatterns: ['/hello'] },
   { path: '/boards/campaigns', label: '캠페인', matchPatterns: ['/boards'] },
 ];
@@ -72,9 +72,9 @@ export default function Header() {
           <S.Menus as='ul'>
             {renderMenuItem()}
           </S.Menus>
-          <button onClick={login}>로그인</button>
+          {/* <button onClick={login}>로그인</button>
           <button onClick={logout}>로그아웃</button>
-          <div>{user ? '로그인' : '로그아웃'}</div>
+          <div>{user ? '로그인' : '로그아웃'}</div> */}
         </S.Navigation>
         <S.UserProfileLinkWrapper>
           <S.UserProfileLink as={Link} to={"/UserProfile_hardcoding"}>

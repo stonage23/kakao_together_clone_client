@@ -81,7 +81,7 @@ const SideMenu = ({isSideMenuOpen, userProfileImg}) => {
             <S.UserProfileLink as={Link} to='/loginpage_hardcoding'>
               {userProfileImg}
               <S.UserProfileNickname as='span'>
-                <stron>{user ? user.nickname : '로그인하세요'}</stron>
+                <strong>{user ? user.nickname : '로그인하세요'}</strong>
               </S.UserProfileNickname>
             </S.UserProfileLink>
           </S.UserProfileConatainer>

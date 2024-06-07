@@ -1,6 +1,7 @@
 import { Button } from "components/common/Button/Styled";
 import styled, { css } from "styled-components";
 import testImg from "assets/images/test_img.jpg";
+import { getMinWidth } from "utils/stylesUtil";
 
 export const CampaignText = styled.div`
     overflow-wrap: break-word;
@@ -36,7 +37,7 @@ export const CampaignActionContainer = styled.div`
     margin-top: auto;
     gap: 9px;
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
         
         position: absolute;
         right: 30px;
@@ -72,7 +73,7 @@ export const CategoryDefaultContentContainer = styled.div`
     }
 
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
 
         margin: calc(-12px) 0px;
 
@@ -99,7 +100,7 @@ export const CategorySingleContentContainer = styled(CategoryDefaultContentConta
     }
 
     
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
         
         & .card_content {
             padding-left: 25px;
@@ -221,7 +222,7 @@ export const Tablist = styled.div`
     overflow-y: hidden;
 
     
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
         overflow: hidden;
         margin: 13px 0px 21px;
     }

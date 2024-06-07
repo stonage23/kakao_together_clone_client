@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components"
+import { getMinWidth } from "utils/stylesUtil";
 
 const GolobalStyles = createGlobalStyle`
     html, body, div, span, applet, object, iframe,
@@ -40,7 +41,7 @@ const GolobalStyles = createGlobalStyle`
         font-family: "KakaoBold";
  
 
-        @media only screen and (min-width: 768px) {
+        @media only screen and (min-width: var(--min-width)) {
             
             min-width: 1140px; // 이거 설정 안하면 화면 줄이면 body 내부 컨텐츠 가로가 좁아짐
         }

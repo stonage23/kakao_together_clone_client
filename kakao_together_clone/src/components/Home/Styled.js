@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { getMinWidth } from "utils/stylesUtil";
 
 export const HomeMain = styled.div`
 `;
@@ -8,25 +9,27 @@ export const HomeWrapper = styled(HomeMain)`
     display: flex;
     justify-content: center;
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
     }
 `;
 
 export const HomeContainer = styled.div`
 
     display: flex;
+    flex-direction: column;
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
         width: 1120px;
         margin: 20px auto 0px;
         padding-bottom: 46px;
+        flex-direction: row;
         justify-content: space-between;
     }
 `;
 
 export const SectionLeftLayout = styled.section`
     
-    @media only screen and (min-width: 768px) 
+    @media only screen and (min-width: ${getMinWidth}) 
     {
         width: 700px;
     }
@@ -42,7 +45,7 @@ export const SubSectionContainer = styled.div`
     margin-bottom: 20px;
     background-color: var(--white-color);
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: ${getMinWidth}) {
         
         position: relative;
         margin-bottom: 30px;

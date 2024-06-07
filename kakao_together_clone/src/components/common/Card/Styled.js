@@ -1,3 +1,5 @@
+import { getMinWidth } from "utils/stylesUtil";
+
 const { default: styled } = require("styled-components");
 
 export const CardWrapper = styled.div`
@@ -17,7 +19,6 @@ export const CardInner = styled.div`
     .card_title {
         font-size: 16px;
         line-height: 1.5;
-        overflow: hidden;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
@@ -27,7 +28,6 @@ export const CardInner = styled.div`
     }
 
     .card_subtext {
-        overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
@@ -43,7 +43,7 @@ export const CardInner = styled.div`
         height: 100%; 
         width: 280px;
         background-color: var(--image-blank-color); 
-        border-radius: 0.5rem;
+        border-radius: 10px;
         flex-shrink: 0;
     }
 
@@ -54,12 +54,12 @@ export const CardInner = styled.div`
         left: 0px;
         width: 100%;
         height: 100%;
+        border-radius: inherit;
         background-image: url(${require("assets/images/hello/img_a_1.png")});
         background-size: cover;
     }
 
     .card_content {
-        overflow: hidden;
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -67,7 +67,7 @@ export const CardInner = styled.div`
         flex: 1 1 0px;
     }
 
-    @media only screen and (min-width: 758px) {
+    @media only screen and (min-width: ${getMinWidth}) {
         
 
         .card_title {

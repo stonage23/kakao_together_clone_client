@@ -4,7 +4,6 @@ import * as S from './Styled';
 import Clock from 'components/animations/clock/Clock';
 
 /**
- * @param {Object} props - 컴포넌트의 props
  * @param {number} props.time - 표시할 시간(밀리세컨드) 
  */
 function TimerContainer({time: initialTime, className}) {

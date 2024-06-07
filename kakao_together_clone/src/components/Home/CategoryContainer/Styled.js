@@ -1,7 +1,10 @@
 import { Button } from "components/common/Button/Styled";
 import styled, { css } from "styled-components";
 import testImg from "assets/images/test_img.jpg";
-import { getMinWidth } from "utils/stylesUtil";
+import { getMaxWidth, getMinWidth } from "utils/stylesUtil";
+import { TimeDisplay } from "components/TimeDisplay/Styled";
+import { TimerContainer } from "../Timer/Styled";
+import { Link } from "react-router-dom";
 
 export const CampaignText = styled.div`
     overflow-wrap: break-word;
@@ -17,6 +20,10 @@ export const CategoryTitle = styled(CampaignText).attrs({as: 'h4'})`
     line-Height: 1.4;
     letter-spacing: -0.3px;
     font-weight: 600;
+`;
+
+export const CategoryLinkTitle = styled(CategoryTitle).attrs({as: Link})`
+    
 `;
 
 
@@ -47,11 +54,17 @@ export const CampaignActionContainer = styled.div`
 `;
 
 export const CategoryDefaultContentContainer = styled.div`
+    
     box-sizing: border-box;
+    overflow: hidden;
+    padding: 24px 30px 32px;
+    margin-bottom: 30px;
     display: flex;
+    flex-direction: column;
     align-items: stretch;
-    margin: calc(-10px) 0px;
-
+    background-color: var(--white-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     & .content_card {
         margin: calc(10px) 0px;
@@ -75,11 +88,14 @@ export const CategoryDefaultContentContainer = styled.div`
 
     @media only screen and (min-width: ${getMinWidth}) {
 
-        margin: calc(-12px) 0px;
-
         & .content_card {
             margin: calc(12px) 0px;
         }
+    }
+
+    @media only screen and (max-width: ${getMinWidth}) {
+        
+        padding: 26px 20px 30px;
     }
 
 `;
@@ -112,10 +128,84 @@ export const CategorySingleContentContainer = styled(CategoryDefaultContentConta
     }
 `;
 
+export const ImageCover = styled.div`
+    
+`;
+
+export const LastDonationContainer = styled(CategorySingleContentContainer)`
+
+    position: relative;
+    
+    & ${ImageCover} {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 10px 0px 0px;
+    }
+
+    & ${TimerContainer} {
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    }
+        
+    @media only screen and (min-width: ${getMinWidth}) {
+        
+        & ${ImageCover} {
+            position: absolute;
+            z-index: 100;
+            top: 86px;
+            width: 280px;
+            background-color: black;
+        }   
+
+        & ${TimeDisplay} {
+            color: white;
+        }
+    }
+
+    @media only screen and (max-width: ${getMaxWidth}) {
+
+        display: flex;
+        justify-content: center;
+        
+        & ${ImageCover} {
+            top: 0px;
+            }
+            
+        & ${CategoryTitle} {
+            text-align: center;
+            margin-top: 20px;
+            }
+            
+        & ${CategoryParagraph} {
+            text-align: center;
+        }
+
+        & .content_card {
+            height: 100%;
+        }
+        
+        & .card_inner {
+            height: auto;
+            display: flex;
+            flex-direction: column;
+
+            & .card_thumbnail {
+                width: 100%;
+                height: 0px;
+                padding-bottom: 50%;
+            }
+        }
+
+        & .card_content {
+            margin-top: 20px;
+        }
+    }
+`;
+
 export const CategoryMultipleContentContainer = styled(CategoryDefaultContentContainer)`
     
     width: 100%;
-    margin: calc(-9px) 0px;
     padding-top: 16px;
 
     & .card_title {
@@ -165,11 +255,10 @@ export const CategoryMultipleContentContainer = styled(CategoryDefaultContentCon
         line-height: 18px;
     }
 
-    @media only screen and (min-width: 758px) {
+    @media only screen and (min-width: ${getMinWidth}) {
 
         flex: 1 1 0%;
         width: auto;
-        margin: -20px calc(-10px);
         
         & .content_card {
             margin: 20px calc(10px);

@@ -6,28 +6,10 @@ import CategoryContainer from './CategoryContainer';
 
 
 
-const sectionList = [
-  {
-    id: 1,
-    title: "마지막 기부자를 찾습니다",
-    subText: "목표 달성까지 얼마 남지 않았어요!",
-    type: "last-donation",
-    href: null
-  },
-  {
-    id: 2,
-    title: "가장 많이 기부중인 모금함",
-    subText: "오늘, 기부 하셨나요? 당신의 마음도 함께 나눠주세요!",
-    type: 'top-donations',
-    href: "fundraisings/now"
-  },
-  {
-    id: 3,
-    title: "가장 많이 기부중인 모금함",
-    subText: null,
-    type: 'tagged',
-    href: null
-  }
+const categoryList = [
+  { id: 1, category: "last_donations" },
+  { id: 2, category: 'top_donations' },
+  { id: 3, category: 'tagged_donations' }
 ];
 
 
@@ -37,10 +19,8 @@ const Home = () => {
       <S.HomeWrapper>
         <S.HomeContainer>
           <S.SectionLeftLayout>
-            {sectionList.map(category => (
-              <S.SubSectionContainer key={category.id}>
-                <CategoryContainer category={category} />
-              </S.SubSectionContainer>
+            {categoryList.map(item => (
+              <CategoryContainer key={item.id} category={item.category} />
             ))}
           </S.SectionLeftLayout>
           <S.SectionRightLayout>

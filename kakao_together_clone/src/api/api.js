@@ -1,6 +1,9 @@
 import axiosInstance from './axiosInstance';
 
-// GET 요청 예제
+/**
+ * @param {*} endpoint 
+ * @returns response.data
+ */
 export const fetchData = async (endpoint) => {
   try {
     const response = await axiosInstance.get(endpoint);

@@ -2,6 +2,7 @@ import Card from 'components/common/Card/Card';
 import Progressbar from 'components/common/Progressbar';
 import { calculateDaysLeft, calculateDiff, stringToDate } from 'utils/dateUtils';
 import { calculatePercentage } from 'utils/progressUtils';
+import * as S from './Styled';
 
 
 /**
@@ -30,13 +31,14 @@ const Fundraising = ({ fundraising, className, ...rest }) => {
     const endDate = stringToDate(fundraising.endDate);
     const diff = calculateDiff(endDate);
     const daysLeft = calculateDaysLeft(diff);
-    const {now: nowPrice, min: minPrice, max: maxPrice} = fundraising;
+    const {now: nowPrice, min: minPrice, max: maxPrice, title, agency} = fundraising;
     const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
 
     return (
+        <S.CardContainer>
         <Card 
-            title={fundraising.title} 
-            subtext={fundraising.agency} 
+            title={title} 
+            subtext={agency} 
             href={`/fundraisings/${fundraising.id}/story`} 
             className={className}
             {...rest}>
@@ -61,6 +63,7 @@ const Fundraising = ({ fundraising, className, ...rest }) => {
                 }
             </Progressbar>
         </Card>
+        </S.CardContainer>
     )
 }
 

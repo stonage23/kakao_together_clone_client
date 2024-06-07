@@ -2,14 +2,30 @@ import React, { useEffect, useState } from 'react';
 import * as S from './Styled.js';
 import Button from '../../common/Button/Button.js';
 import { CiHeart } from "react-icons/ci";
-import { fetchCampaignsByTag, fetchTags } from 'api/api';
+import { fetchCampaignsByTag, fetchData, fetchTags } from 'api/api';
 import { handleCache } from 'utils/handleCache';
-import { Link } from 'react-router-dom';
 import 'types/fundraising';
 import { calculateDiff, stringToDate } from 'utils/dateUtils.js';
-import { ImageCover } from 'components/ImageCover/Styled.js';
-import TimerContainer from '../Timer/TimerContainer.js';
 import Fundraising from '../Fundraising/Fundraising.js';
+import TimerContainer from '../Timer/TimerContainer.js';
+
+const categoryList = {
+  last_donations: {
+    title: "마지막 기부자를 찾습니다",
+    subText: "목표 달성까지 얼마 남지 않았어요!",
+    href: null
+  },
+  top_donations: {
+    title: "가장 많이 기부중인 모금함",
+    subText: "오늘, 기부 하셨나요? 당신의 마음도 함께 나눠주세요!",
+    href: "fundraisings/now"
+  },
+  tagged_donations: {
+    title: "가장 많이 기부중인 모금함",
+    subText: null,
+    href: null
+  }
+};
 
 /**
  * @param {Object} props - 컴포넌트의 props
@@ -26,12 +42,110 @@ import Fundraising from '../Fundraising/Fundraising.js';
  * @param {Fundraising} props.fundraising
  */
 
-const CategoryContainer = ({ category, fundraising, ...rest }) => {
+const CategoryContainer = ({ category }) => {
+
+    const contentMap = {
+      'last_donations': <LastDonation category={category} />,
+      'top_donations': <TopDonations category={category} />,
+      'tagged_donations': <TagDonations category={category} />
+    };
+
+    // NOTE null로 반환하면서 로그를 남겨야 할것 같은데
+    return contentMap[category] || null;
+};
+
+// TODO 시간관리 유틸 별도로 빼기
+const dateUtils = (date) => {
+
+  const endDate = stringToDate(date);
+  const diff = calculateDiff(endDate);
+  const isExpired = (diff <= 0) ? true : false;
+
+  return {isExpired, diff};
+}
+
+/**
+ * @param {Object} props 
+ * @param {Fundraising} props.fundraising
+ */
+const LastDonation = ({ category }) => {
+
+  const {title, subText} = categoryList[category];
+  const [fundraising, setFundraising] = useState();
+
+  useEffect(() => {
+
+    const initializeData = async () => {
+      try {
+
+        // TODO (임시) API 작성하기
+        // TODO 예외 처리
+        const result = await fetchData("/campaigns/1");
+        setFundraising(result);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    initializeData();
+  }, []);
+
+  if (!fundraising) {
+    return null;
+  }
+
+  const {isExpired, diff} = dateUtils(fundraising.endDate);
+  const classDisabled = isExpired ? 'disabled' : '';
+  const classHidden = isExpired ? 'hidden' : '';
+
+  // TODO 남은시간 유틸로 빼기
+  return (
+    <S.LastDonationContainer>
+      <S.ImageCover>
+        <TimerContainer time={diff}/>
+      </S.ImageCover>
+      <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
+      <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
+      <Fundraising fundraising={fundraising} className={classDisabled} row />
+      <ActionButtons className={classHidden}/>
+    </S.LastDonationContainer>
+  );
+};
+
+const ActionButtons = ({className}) => (
+
+  <S.CampaignActionContainer className={className}>
+    <Button color='#c9c9c9'><CiHeart /> 하트응원</Button>
+    <Button color='#c9c9c9'>기부하기</Button>
+  </S.CampaignActionContainer>
+);
+
+const TopDonations = ({ category, data }) => {
+
+  const {title, subText} = categoryList[category];
+  const [campaigns, setCampaigns] = useState([]);
+  const [campaignCache, setCampaignCache] = useState({});
+
+  return (
+    <S.CategoryMultipleContentContainer>
+      <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
+      <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
+      {data && data.map(fundraising => (
+        <Fundraising key={fundraising.id} fundraising={fundraising} column />
+      ))}
+    </S.CategoryMultipleContentContainer>
+  )
+};
+
+const TagDonations = ({ category, data }) => {
+
+  const {title, subText, href} = categoryList[category];
 
   const [campaigns, setCampaigns] = useState([]);
+  const [campaignCache, setCampaignCache] = useState({});
+
   const [tags, setTags] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [campaignCache, setCampaignCache] = useState({});
 
   useEffect(() => {
 
@@ -44,8 +158,8 @@ const CategoryContainer = ({ category, fundraising, ...rest }) => {
         if (tagsResult.length > 0) {
           handleTagClick(tagsResult[0].id, 0);
         }
-      } catch (error) {
-        console.error('initializeTagData failed:', error);
+      } catch (e) {
+        console.e('initializeTagData failed:', e);
       }
     };
 
@@ -58,122 +172,32 @@ const CategoryContainer = ({ category, fundraising, ...rest }) => {
       const result = await handleCache(tagId, campaignCache, () => fetchCampaignsByTag(tagId));
       setCampaignCache(prevCache => ({ ...prevCache, [tagId]: result }));
       setCampaigns(result);
-    } catch (error) {
-      console.error('handleTagClick failed:', error);
+    } catch (e) {
+      console.e('handleTagClick failed:', e);
     }
 
     setActiveIndex(index);
   };
 
-  const renderByCategoryType = () => {
-
-    const contentMap = {
-      'last-donation': <LastDonorContainer fundraising={campaigns[0]} />,
-      'top-donations': <TopDonationsContainer data={campaigns} />,
-      'tagged': <TaggedContainer activeIndex={activeIndex} setActiveIndex={handleTagClick} tags={tags} data={campaigns} />
-    };
-
-    return contentMap[category.type] || null;
-  };
-
   return (
     <>
-      <CategoryTitle title={category.title} href={category.href}/>
-      {category.subText && category.type !== 'tagged' && (
-        <S.CategoryParagraph as='p'>
-          {category.subText}
-        </S.CategoryParagraph>
-      )}
-      {renderByCategoryType()}     
+      <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
+      <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
+      <S.Tablist>
+        {tags && tags.map((tag, index) => (
+          <S.ButtonTab key={tag.id} onClick={() => setActiveIndex(tag.id, index)} active={activeIndex === index}>
+            <span>#</span><span>{tag.tag}</span>
+          </S.ButtonTab>
+        ))
+        }
+      </S.Tablist>
+      <S.TotalTabPanel>
+        {data && data.map(fundraising => (
+          <Fundraising key={fundraising.id} fundraising={fundraising} column />
+        ))}
+      </S.TotalTabPanel>
     </>
-  );
-};
-
-const CategoryTitle = ({ title, href, ...rest }) => {
-
-  return (
-    <S.CategoryTitle>
-      {href ? 
-        <Link className='external_hyperlink' to={href}>
-          <span>{title}</span>
-        </Link>
-        :
-        title
-      }
-    </S.CategoryTitle>
-  );
+  )
 }
-
-/**
- * @param {Object} props 
- * @param {Fundraising} props.fundraising
- */
-const LastDonorContainer = ({ fundraising }) => {
-
-  const [isExpired, setIsExpired] = useState();
-
-  useEffect(() => {
-    if (fundraising) {
-      const endDate = stringToDate(fundraising.endDate);
-      const timeDiff = calculateDiff(endDate);
-      setIsExpired(timeDiff <= 0);
-    }
-  }, [fundraising]);
-
-  if (!fundraising) {
-    return null;
-  }
-
-  const endDate = stringToDate(fundraising.endDate);
-  const timeDiff = calculateDiff(endDate);
-  const classDisabled = isExpired ? 'disabled' : '';
-  const classHidden = isExpired ? 'hidden' : '';
-
-  return (
-    <S.CategorySingleContentContainer>
-      <ImageCover>
-        <TimerContainer time={timeDiff} className={classDisabled}/>
-      </ImageCover>
-      <Fundraising fundraising={fundraising} className={classDisabled} row />
-      <ActionButtons className={classHidden}/>
-    </S.CategorySingleContentContainer>
-  );
-};
-
-const TopDonationsContainer = ({ data }) => (
-
-  <S.CategoryMultipleContentContainer>
-    {data && data.map(fundraising => (
-      <Fundraising key={fundraising.id} fundraising={fundraising} column />
-    ))}
-  </S.CategoryMultipleContentContainer>
-);
-
-const TaggedContainer = ({ activeIndex, setActiveIndex, tags, data }) => (
-
-  <>
-    <S.Tablist>
-      {tags && tags.map((tag, index) => (
-        <S.ButtonTab key={tag.id} onClick={() => setActiveIndex(tag.id, index)} active={activeIndex === index}>
-          <span>#</span><span>{tag.tag}</span>
-        </S.ButtonTab>
-      ))
-      }
-    </S.Tablist>
-    <S.TotalTabPanel>
-      {data && data.map(fundraising => (
-        <Fundraising key={fundraising.id} fundraising={fundraising} column />
-      ))}
-    </S.TotalTabPanel>
-  </>
-);
-
-const ActionButtons = ({className}) => (
-
-  <S.CampaignActionContainer className={className}>
-    <Button color='#c9c9c9'><CiHeart /> 하트응원</Button>
-    <Button color='#c9c9c9'>기부하기</Button>
-  </S.CampaignActionContainer>
-);
 
 export default CategoryContainer;

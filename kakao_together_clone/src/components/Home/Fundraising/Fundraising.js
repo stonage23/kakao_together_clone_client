@@ -4,19 +4,6 @@ import { calculateDaysLeft, calculateDiff, stringToDate } from 'utils/dateUtils'
 import { calculatePercentage } from 'utils/progressUtils';
 import * as S from './Styled';
 
-
-/**
- * @typedef {Object} Fundraising
- * @property {number} fundraising.id - 고유 식별자
- * @property {number} fundraising.tagId - 태그 식별자
- * @property {string} fundraising.title - 모금 제목
- * @property {string} fundraising.agency - 주관 기관
- * @property {number} fundraising.min - 최소 금액
- * @property {number} fundraising.max - 목표 금액
- * @property {number} fundraising.now - 현재 금액
- * @property {string} fundraising.endDate - 종료일 (형식: YYYY-MM-DD)
- */
-
 /**
  * @param {Object} props - 컴포넌트의 props
  * @param {Fundraising} props.fundraising - 모금 객체

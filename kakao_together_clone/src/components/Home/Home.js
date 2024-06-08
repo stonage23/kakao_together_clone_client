@@ -3,6 +3,7 @@ import * as S from './Styled';
 import MindWether from 'components/Home/MindWether/MindWether';
 import DonationCard from './DonationCard';
 import CategoryContainer from './CategoryContainer';
+import { Card } from 'components/common/Card';
 
 
 
@@ -22,6 +23,7 @@ const Home = () => {
             {categoryList.map(item => (
               <CategoryContainer key={item.id} category={item.category} />
             ))}
+            <Card title={'가나봐라'} subtext={'이것은 서브 텍스트'}></Card>
           </S.SectionLeftLayout>
           <S.SectionRightLayout>
             <S.RightBannerContainer>

@@ -42,6 +42,7 @@ export const HomeContainer = styled.div`
     @media only screen and (max-width: ${getMinWidth}) {
         
         padding: 0px 20px 20px;
+        width: 100%;
     }
 `;
 

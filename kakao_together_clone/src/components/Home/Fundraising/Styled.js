@@ -5,6 +5,5 @@ import styled from "styled-components";
  */
 export const CardContainer = styled.div`
 
-        margin: calc(-12px) 0px;
-        padding-top: 10px;
+        
 `;

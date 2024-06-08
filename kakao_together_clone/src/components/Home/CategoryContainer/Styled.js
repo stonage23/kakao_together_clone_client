@@ -5,6 +5,9 @@ import { getMaxWidth, getMinWidth } from "utils/stylesUtil";
 import { TimeDisplay } from "components/TimeDisplay/Styled";
 import { TimerContainer } from "../Timer/Styled";
 import { Link } from "react-router-dom";
+import { Card } from "components/common/Card";
+import { CardWrapper } from "components/common/Card/Styled";
+import { CardContainer } from "../Fundraising/Styled";
 
 export const CampaignText = styled.div`
     overflow-wrap: break-word;
@@ -66,30 +69,49 @@ export const CategoryDefaultContentContainer = styled.div`
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-    & .content_card {
-        margin: calc(10px) 0px;
-        width: 100%;
-    }
+    & ${CardContainer} {
 
-    & .card_thumbnail {
-        position: relative;
-        background-image: url(${testImg});
-        background-size: cover;
-    }
+        & .card_title {
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            text-overflow: ellipsis;
+        }
 
-    & .card_thumbnail::after {
-        content: "";
-        border-radius: inherit;
-        width: 100%;
-        height: 100%;
-        position: absolute;
+        & .card_subtext {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        & .content_card {
+            margin: calc(10px) 0px;
+            width: 100%;
+        }
+    
+        & .card_thumbnail {
+            position: relative;
+            background-image: url(${testImg});
+            background-size: cover;
+        }
+    
+        & .card_thumbnail::after {
+            content: "";
+            border-radius: inherit;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
     }
 
 
     @media only screen and (min-width: ${getMinWidth}) {
 
-        & .content_card {
-            margin: calc(12px) 0px;
+        & ${Card} {
+
+            & .content_card {
+                margin: calc(12px) 0px;
+            }
         }
     }
 
@@ -134,8 +156,21 @@ export const ImageCover = styled.div`
 
 export const LastDonationContainer = styled(CategorySingleContentContainer)`
 
-    position: relative;
-    
+    & ${CardContainer} {
+        width: 100%;
+        margin: calc(-12px) 0px;
+        padding-top: 10px;
+    }
+
+    & ${CardWrapper} {
+        
+        & .card_title {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+        }
+    }
+
     & ${ImageCover} {
         display: flex;
         justify-content: center;
@@ -149,7 +184,27 @@ export const LastDonationContainer = styled(CategorySingleContentContainer)`
     }
         
     @media only screen and (min-width: ${getMinWidth}) {
-        
+
+        position: relative;
+
+        & ${Card} {
+
+            & .card_inner {
+                gap: 0px;
+            }
+            
+            & .thumbnail {
+                width: 280px;
+            }   
+    
+            & .card_content {
+                flex: 1 1 0%;
+                width: 100%;
+            }
+
+            
+        }
+
         & ${ImageCover} {
             position: absolute;
             z-index: 100;
@@ -165,6 +220,7 @@ export const LastDonationContainer = styled(CategorySingleContentContainer)`
 
     @media only screen and (max-width: ${getMaxWidth}) {
 
+        width: 100%;
         display: flex;
         justify-content: center;
         
@@ -181,25 +237,31 @@ export const LastDonationContainer = styled(CategorySingleContentContainer)`
             text-align: center;
         }
 
-        & .content_card {
-            height: 100%;
-        }
-        
-        & .card_inner {
-            height: auto;
-            display: flex;
-            flex-direction: column;
+        & ${CardContainer} {
 
-            & .card_thumbnail {
+            & .content_card {
+                height: 100%;
+            }
+        
+            & .card_inner {
+                height: auto;
+                gap: 0px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            & .card_inner .card_thumbnail {
                 width: 100%;
                 height: 0px;
                 padding-bottom: 50%;
             }
+
+            & .card_content {
+                margin-top: 20px;
+            }
         }
 
-        & .card_content {
-            margin-top: 20px;
-        }
+        
     }
 `;
 

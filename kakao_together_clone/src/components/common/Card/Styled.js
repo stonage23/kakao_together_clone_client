@@ -3,17 +3,18 @@ import { getMinWidth } from "utils/stylesUtil";
 const { default: styled } = require("styled-components");
 
 export const CardWrapper = styled.div`
+
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    height: 150px;
+    width: 300px;
 `;
 
 export const CardInner = styled.div`
-    display: flex;
+
     height: 100%;
     width: 100%;
-    
+    display: flex;
+    gap: 10px;
     cursor: pointer;
 
     .card_title {
@@ -32,19 +33,12 @@ export const CardInner = styled.div`
         text-overflow: ellipsis;
     }
 
-    .card_inner {
-        display: flex;
-        height: 100%;
-        color: rgb(32, 32, 32);
-    }
-
     .card_thumbnail {
         position: relative;
-        height: 100%; 
-        width: 280px;
-        background-color: var(--image-blank-color); 
-        border-radius: 10px;
         flex-shrink: 0;
+        width: 50%;
+        height: 100%;
+        background-color: var(--image-blank-color); 
     }
 
     .card_thumbnail::after {
@@ -60,11 +54,10 @@ export const CardInner = styled.div`
     }
 
     .card_content {
+        flex: 1;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        box-sizing: border-box;
-        flex: 1 1 0px;
+        overflow: hidden;
     }
 
     @media only screen and (min-width: ${getMinWidth}) {

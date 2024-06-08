@@ -21,7 +21,7 @@ const categoryList = {
     href: "fundraisings/now"
   },
   tagged_donations: {
-    title: "가장 많이 기부중인 모금함",
+    title: "태그로 보는 모금함",
     subText: null,
     href: null
   }
@@ -98,7 +98,6 @@ const LastDonation = ({ category }) => {
   const classDisabled = isExpired ? 'disabled' : '';
   const classHidden = isExpired ? 'hidden' : '';
 
-  // TODO 남은시간 유틸로 빼기
   return (
     <S.LastDonationContainer>
       <S.ImageCover>
@@ -122,18 +121,39 @@ const ActionButtons = ({className}) => (
 
 const TopDonations = ({ category, data }) => {
 
+  const [fundraisingList, setFundraisingList] = useState([]);
   const {title, subText} = categoryList[category];
-  const [campaigns, setCampaigns] = useState([]);
-  const [campaignCache, setCampaignCache] = useState({});
+  
+  // TODO API 임시로 된거 실제로 작성
+  useEffect(() => {
+
+    const initializeData = async () => {
+      try {
+
+        // TODO (임시) API 작성하기
+        // TODO 예외 처리
+        const result1 = await fetchData("/campaigns/1");
+        const result2 = await fetchData("/campaigns/2");
+        const result3 = await fetchData("/campaigns/3");
+        setFundraisingList([result1, result2, result3]);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    initializeData();
+  }, []);
 
   return (
-    <S.CategoryMultipleContentContainer>
+    <S.TopDonationsWrapper>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
-      {data && data.map(fundraising => (
-        <Fundraising key={fundraising.id} fundraising={fundraising} column />
-      ))}
-    </S.CategoryMultipleContentContainer>
+      <S.TripleContentContainer>
+        {fundraisingList && fundraisingList.map(item => (
+          <Fundraising key={item.id} fundraising={item} />
+        ))}
+      </S.TripleContentContainer>
+    </S.TopDonationsWrapper>
   )
 };
 

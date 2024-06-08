@@ -11,7 +11,8 @@ export const HomeWrapper = styled(HomeMain)`
 
     width: 100%;
     display: flex;
-    margin: 20px auto 0px;
+    padding-top: 20px;
+    margin: 0px auto;
     
     @media only screen and (min-width: ${getMinWidth}) {
         
@@ -41,15 +42,16 @@ export const HomeContainer = styled.div`
 
     @media only screen and (max-width: ${getMinWidth}) {
         
-        padding: 0px 20px 20px;
+        box-sizing: border-box;
+        padding: 20px;
         width: 100%;
     }
 `;
 
 export const SectionLeftLayout = styled.section`
     
-    @media only screen and (min-width: ${getMinWidth}) 
-    {
+    @media only screen and (min-width: ${getMinWidth}) {
+
         width: 700px;
     }
 `;

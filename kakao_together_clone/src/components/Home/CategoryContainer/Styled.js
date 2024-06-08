@@ -6,8 +6,7 @@ import { TimeDisplay } from "components/TimeDisplay/Styled";
 import { TimerContainer } from "../Timer/Styled";
 import { Link } from "react-router-dom";
 import { Card } from "components/common/Card";
-import { CardWrapper } from "components/common/Card/Styled";
-import { CardContainer } from "../Fundraising/Styled";
+import { Fundra, FundraisingContainer, FundraisingContainerisingContainerFundraisingContainer } from "../Fundraising/Styled";
 
 export const CampaignText = styled.div`
     overflow-wrap: break-word;
@@ -15,7 +14,6 @@ export const CampaignText = styled.div`
     font-style: normal;
     -webkit-font-smoothing: antialiased;
 `;
-
 
 export const CategoryTitle = styled(CampaignText).attrs({as: 'h4'})`
 
@@ -29,8 +27,6 @@ export const CategoryLinkTitle = styled(CategoryTitle).attrs({as: Link})`
     
 `;
 
-
-// p
 export const CategoryParagraph = styled(CampaignText)`
     font-size: 15px;
     line-Height: 1.6;
@@ -69,7 +65,7 @@ export const CategoryDefaultContentContainer = styled.div`
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-    & ${CardContainer} {
+    & ${FundraisingContainer} {
 
         & .card_title {
             overflow: hidden;
@@ -107,12 +103,6 @@ export const CategoryDefaultContentContainer = styled.div`
 
     @media only screen and (min-width: ${getMinWidth}) {
 
-        & ${Card} {
-
-            & .content_card {
-                margin: calc(12px) 0px;
-            }
-        }
     }
 
     @media only screen and (max-width: ${getMinWidth}) {
@@ -124,7 +114,7 @@ export const CategoryDefaultContentContainer = styled.div`
 
 export const CategorySingleContentContainer = styled(CategoryDefaultContentContainer)`
     
-    & ${CardContainer} {
+    & ${FundraisingContainer} {
 
         & .content_card {
             margin: calc(12px) 0px;
@@ -138,7 +128,7 @@ export const CategorySingleContentContainer = styled(CategoryDefaultContentConta
     
     @media only screen and (min-width: ${getMinWidth}) {
 
-        & ${CardContainer} {
+        & ${FundraisingContainer} {
         
             & .card_content {
                 padding-left: 25px;
@@ -157,13 +147,13 @@ export const ImageCover = styled.div`
 
 export const LastDonationContainer = styled(CategorySingleContentContainer)`
 
-    & ${CardContainer} {
+    & ${FundraisingContainer} {
         width: 100%;
         margin: calc(-12px) 0px;
         padding-top: 10px;
     }
 
-    & ${CardWrapper} {
+    & ${FundraisingContainer} {
         
         & .card_title {
             font-size: 16px;
@@ -238,7 +228,7 @@ export const LastDonationContainer = styled(CategorySingleContentContainer)`
             text-align: center;
         }
 
-        & ${CardContainer} {
+        & ${FundraisingContainer} {
 
             & .content_card {
                 height: 100%;
@@ -274,7 +264,7 @@ export const TripleContentContainer = styled(MultipleContentContainer)`
     
     display: flex;
 
-    & ${CardContainer} {
+    & ${FundraisingContainer} {
 
 
         & .card_title {
@@ -311,7 +301,7 @@ export const TripleContentContainer = styled(MultipleContentContainer)`
 
         margin: 0px calc(-10px);
 
-        & ${CardContainer} {
+        & ${FundraisingContainer} {
 
             width: calc(33.33% - 20px);
             margin: 0px 10px;
@@ -322,6 +312,10 @@ export const TripleContentContainer = styled(MultipleContentContainer)`
             & .card_thumbnail {
                 width: 100%;
                 height: 0%;
+            }
+
+            & .card_inner {
+                gap: 0px;
             }
 
             & .card_content {
@@ -352,7 +346,7 @@ export const TripleContentContainer = styled(MultipleContentContainer)`
         
         flex-direction: column;
 
-        & ${CardContainer} {
+        & ${FundraisingContainer} {
 
             & .card_inner {
                 flex-direction: row;

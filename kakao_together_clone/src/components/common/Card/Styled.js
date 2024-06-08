@@ -2,12 +2,7 @@ import { getMinWidth } from "utils/stylesUtil";
 
 const { default: styled } = require("styled-components");
 
-export const CardWrapper = styled.div`
 
-    box-sizing: border-box;
-    height: 150px;
-    width: 300px;
-`;
 
 export const CardInner = styled.div`
 

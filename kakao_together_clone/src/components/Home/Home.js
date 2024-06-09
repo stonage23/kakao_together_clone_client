@@ -3,14 +3,13 @@ import * as S from './Styled';
 import MindWether from 'components/Home/MindWether/MindWether';
 import DonationCard from './DonationCard';
 import CategoryContainer from './CategoryContainer';
-import { Card } from 'components/common/Card';
 
 
 
 const categoryList = [
   { id: 1, category: "last_donations" },
   { id: 2, category: 'top_donations' },
-  { id: 3, category: 'tagged_donations' }
+  { id: 3, category: 'tag_donations' }
 ];
 
 

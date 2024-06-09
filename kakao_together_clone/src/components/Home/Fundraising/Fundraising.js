@@ -51,21 +51,21 @@ const Fundraising = ({ fundraising, isExpired = false, type, className = '', pro
 
     const contentType = {
         'card': (
-            <Card
-                title={title}
-                subtext={agency}
-                href={`/fundraisings/${fundraising.id}/story`}
-                className={className}
-                {...rest}
-                > {renderProgressbar()}
-            </Card>
+            <S.CardWrapper className={`content_card ${className}`}>
+                <Card
+                    title={title}
+                    subtext={agency}
+                    href={`/fundraisings/${fundraising.id}/story`}
+                    className={className}
+                    {...rest}
+                    > {renderProgressbar()}
+                </Card>
+            </S.CardWrapper>
         )
     }
 
     return (
-        <S.FundraisingContainer className={className}>
-            {contentType[type]}
-        </S.FundraisingContainer>
+        contentType[type]
     )
 }
 

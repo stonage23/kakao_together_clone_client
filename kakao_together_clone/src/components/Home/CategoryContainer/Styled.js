@@ -155,9 +155,17 @@ export const MultipleContentCardContainer = styled(DefaultContentCardContainer)`
 export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
     
     & .card_title {
-        font-size: 14px;
-        line-height: 1.5;
+        font-size: 12px;
+        line-height: 1.43;
         font-weight: 600;
+    }
+
+    & .card_subtext {
+        font-size: 10px;
+    }
+
+    & .progress_info {
+        font-size: 10px;
     }
 
     & .content_card {
@@ -184,7 +192,10 @@ export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
 
     @media only screen and (min-width: ${getMinWidth}) {
 
+        margin: 0px calc(-12px);
+        
         & .content_card {
+            margin: 0px calc(12px);
             width: calc(33.33% - 20px);
         }
 
@@ -213,8 +224,6 @@ export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
             line-height: 18px;
         }
 
-        
-
         & .progress_bar {
             height: 3px;
         }
@@ -223,6 +232,11 @@ export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
     @media only screen and (max-width: ${getMaxWidth}) {
         
         flex-direction: column;
+        margin: calc(-10px) 0px;
+
+        & .content_card {
+            margin: calc(10px) 0px;
+        }
 
         & .card_inner {
             flex-direction: row;
@@ -232,6 +246,11 @@ export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
             height: 86px;
             width: 124px;
             padding-bottom: 0%;
+        }
+
+        & .card_content {
+            padding-left: 10px;
+            flex: 1 1 0%;
         }
     }
 `;
@@ -320,7 +339,7 @@ export const LastDonationSingleContentCardContainer = styled(SingleContentCardCo
     padding-top: 10px;
 `;
 
-export const TopDonationsWrapper = styled(DefaultCategoryContainer)`
+export const TopDonationsConatainer = styled(DefaultCategoryContainer)`
     
 `;
 
@@ -328,36 +347,19 @@ export const TopDonationsTripleContentCardContainer = styled(TripleContentCardCo
     
     padding-top: 12px;
     
-    @media only screen and (min-width: ${getMinWidth}) {
-        
-        margin: 0px calc(-12px);
-    
-        & .content_card {
-            margin: 0px calc(12px);
-        }
-    }
-            
-    @media only screen and (max-width: ${getMaxWidth}) {
-
-        margin: calc(-10px) 0px;
-        
-        & .content_card {
-            margin: calc(10px) 0px;
-        }
-    }
 `;
 
-export const TotalTabPanel = styled(DefaultCategoryContainer)`
+export const TagDonationsContainer = styled(DefaultCategoryContainer)`
+
+`;
+
+export const TagDonationsTripleContentCardContainer = styled(TripleContentCardContainer)`
+
+`;
+
+export const TotalTabPanel = styled.div`
     
-    @media only screen and (min-width: 758px) {
-
-        padding: 0px 0px 5px;
-
-        & .content_card {
-            margin: 0px calc(10px);
-            width: calc(33.33% - 20px);
-        }
-    }
+    width: 100%;
 `;
 
 

@@ -21,7 +21,7 @@ const categoryList = {
     subText: "오늘, 기부 하셨나요? 당신의 마음도 함께 나눠주세요!",
     href: "fundraisings/now"
   },
-  tagged_donations: {
+  tag_donations: {
     title: "태그로 보는 모금함",
     subText: null,
     href: null
@@ -48,7 +48,7 @@ const CategoryContainer = ({ category }) => {
     const contentMap = {
       'last_donations': <LastDonation category={category} />,
       'top_donations': <TopDonations category={category} />,
-      'tagged_donations': <TagDonations category={category} />
+      'tag_donations': <TagDonations category={category} />
     };
 
     // NOTE null로 반환하면서 로그를 남겨야 할것 같은데
@@ -124,7 +124,7 @@ const ActionButtons = ({className}) => (
   </S.ActionContainer>
 );
 
-const TopDonations = ({ category, data }) => {
+const TopDonations = ({ category }) => {
 
   const [fundraisingList, setFundraisingList] = useState([]);
   const {title, subText} = categoryList[category];
@@ -149,10 +149,8 @@ const TopDonations = ({ category, data }) => {
     initializeData();
   }, []);
 
-  const fundraisingClassName = 'content_card';
-
   return (
-    <S.TopDonationsWrapper>
+    <S.TopDonationsConatainer>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
       <S.TopDonationsTripleContentCardContainer>
@@ -161,27 +159,26 @@ const TopDonations = ({ category, data }) => {
             key={item.id}
             fundraising={item} 
             type='card' 
-            className={fundraisingClassName}
             progressInfo='oneline'
           />
         ))}
       </S.TopDonationsTripleContentCardContainer>
-    </S.TopDonationsWrapper>
+    </S.TopDonationsConatainer>
   )
 };
 
-const TagDonations = ({ category, data }) => {
+const TagDonations = ({ category }) => {
 
   const {title, subText, href} = categoryList[category];
 
-  const [campaigns, setCampaigns] = useState([]);
-  const [campaignCache, setCampaignCache] = useState({});
+  const [fundraisingList, setFundraisingList] = useState([]);
+  const [fundraisingCache, setFundraisingCache] = useState({});
 
   const [tags, setTags] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
 
+  useEffect(() => {
     const initializeTagData = async () => {
 
       try {
@@ -202,9 +199,9 @@ const TagDonations = ({ category, data }) => {
   const handleTagClick = async (tagId, index) => {
 
     try {
-      const result = await handleCache(tagId, campaignCache, () => fetchCampaignsByTag(tagId));
-      setCampaignCache(prevCache => ({ ...prevCache, [tagId]: result }));
-      setCampaigns(result);
+      const result = await handleCache(tagId, fundraisingCache, () => fetchCampaignsByTag(tagId));
+      setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: result }));
+      setFundraisingList(result);
     } catch (e) {
       console.e('handleTagClick failed:', e);
     }
@@ -213,23 +210,30 @@ const TagDonations = ({ category, data }) => {
   };
 
   return (
-    <>
+    <S.TagDonationsContainer>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
       <S.Tablist>
         {tags && tags.map((tag, index) => (
-          <S.ButtonTab key={tag.id} onClick={() => setActiveIndex(tag.id, index)} active={activeIndex === index}>
+          <S.ButtonTab key={tag.id} onClick={() => handleTagClick(tag.id, index)} active={activeIndex === index}>
             <span>#</span><span>{tag.tag}</span>
           </S.ButtonTab>
         ))
         }
       </S.Tablist>
       <S.TotalTabPanel>
-        {data && data.map(fundraising => (
-          <Fundraising key={fundraising.id} fundraising={fundraising} column />
+      <S.TagDonationsTripleContentCardContainer>
+        {fundraisingList && fundraisingList.map(item => (
+          <Fundraising 
+            key={item.id}
+            fundraising={item} 
+            type='card' 
+            progressInfo='oneline'
+          />
         ))}
+      </S.TagDonationsTripleContentCardContainer>
       </S.TotalTabPanel>
-    </>
+    </S.TagDonationsContainer>
   )
 }
 

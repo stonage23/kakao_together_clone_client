@@ -5,9 +5,9 @@ export const handleCache = async (id, cacheObject, fetchData) => {
   } else {
     try {
       return await fetchData();
+      // TODO 예외처리
     } catch (error) {
       console.error('custom handleCache failed:', error);
-      throw error;
     }
   }
 };

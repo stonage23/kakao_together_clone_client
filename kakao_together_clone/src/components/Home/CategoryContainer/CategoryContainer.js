@@ -8,6 +8,7 @@ import 'types/fundraising';
 import { calculateDiff, stringToDate } from 'utils/dateUtils.js';
 import Fundraising from '../Fundraising/Fundraising.js';
 import TimerContainer from '../Timer/TimerContainer.js';
+import { joinClassName } from 'utils/classNameUtil.js';
 
 const categoryList = {
   last_donations: {
@@ -98,6 +99,8 @@ const LastDonation = ({ category }) => {
   const classDisabled = isExpired ? 'disabled' : '';
   const classHidden = isExpired ? 'hidden' : '';
 
+  const fundraisingClassName = joinClassName([classDisabled, 'content_card']);
+
   return (
     <S.LastDonationContainer>
       <S.ImageCover>
@@ -105,7 +108,9 @@ const LastDonation = ({ category }) => {
       </S.ImageCover>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
-      <Fundraising fundraising={fundraising} className={classDisabled} row />
+      <S.LastDonationSingleContentContainer>
+        <Fundraising fundraising={fundraising} className={fundraisingClassName} row />
+      </S.LastDonationSingleContentContainer>
       <ActionButtons className={classHidden}/>
     </S.LastDonationContainer>
   );
@@ -113,10 +118,10 @@ const LastDonation = ({ category }) => {
 
 const ActionButtons = ({className}) => (
 
-  <S.CampaignActionContainer className={className}>
+  <S.ActionContainer className={className}>
     <Button color='#c9c9c9'><CiHeart /> 하트응원</Button>
     <Button color='#c9c9c9'>기부하기</Button>
-  </S.CampaignActionContainer>
+  </S.ActionContainer>
 );
 
 const TopDonations = ({ category, data }) => {
@@ -148,11 +153,11 @@ const TopDonations = ({ category, data }) => {
     <S.TopDonationsWrapper>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
-      <S.TripleContentContainer>
+      <S.TopDonationsMultiContentContainer>
         {fundraisingList && fundraisingList.map(item => (
           <Fundraising key={item.id} fundraising={item} />
         ))}
-      </S.TripleContentContainer>
+      </S.TopDonationsMultiContentContainer>
     </S.TopDonationsWrapper>
   )
 };

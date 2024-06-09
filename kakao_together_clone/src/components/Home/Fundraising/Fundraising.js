@@ -22,36 +22,34 @@ const Fundraising = ({ fundraising, className, ...rest }) => {
     const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
 
     return (
-        <S.FundraisingContainer>
-            <S.CardWrapper className={`content_card ${className}`}>
-                <Card 
-                    title={title} 
-                    subtext={agency} 
-                    href={`/fundraisings/${fundraising.id}/story`} 
-                    className={className}
-                    {...rest}>
-                    <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
-                        {rest.row &&
-                            <>
-                                <div>
-                                    <span>{nowPrice}원</span>
-                                    <span>{maxPrice}원 목표</span>
-                                </div>
-                                <div>
-                                    <span>{progressPercentage}% 달성</span>
-                                    <span>{diff <= 0 ? '0' : daysLeft}일 남음</span>
-                                </div>
-                            </>
-                        }
-                        {rest.column &&
+        <S.FundraisingContainer className={className}>
+            <Card 
+                title={title} 
+                subtext={agency} 
+                href={`/fundraisings/${fundraising.id}/story`} 
+                className={className}
+                {...rest}>
+                <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
+                    {rest.row &&
+                        <>
                             <div>
                                 <span>{nowPrice}원</span>
-                                <span>{progressPercentage}% </span>
+                                <span>{maxPrice}원 목표</span>
                             </div>
-                        }
-                    </Progressbar>
-                </Card>
-            </S.CardWrapper>
+                            <div>
+                                <span>{progressPercentage}% 달성</span>
+                                <span>{diff <= 0 ? '0' : daysLeft}일 남음</span>
+                            </div>
+                        </>
+                    }
+                    {rest.column &&
+                        <div>
+                            <span>{nowPrice}원</span>
+                            <span>{progressPercentage}% </span>
+                        </div>
+                    }
+                </Progressbar>
+            </Card>
         </S.FundraisingContainer>
     )
 }

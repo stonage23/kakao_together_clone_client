@@ -9,7 +9,6 @@ export const CardInner = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    gap: 10px;
     cursor: pointer;
 
     .card_title {

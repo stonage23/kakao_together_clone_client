@@ -17,37 +17,46 @@ const Fundraising = ({ fundraising, isExpired, type, className, ...rest }) => {
 
     const { now: nowPrice, min: minPrice, max: maxPrice, title, agency } = fundraising;
     const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
-    console.log(fundraising.endDate);
 
-    return (
-        <S.FundraisingContainer className={className}>
+    const renderProgressbar = () => (
+        <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
+            {rest.row &&
+                <>
+                    <div>
+                        <span>{nowPrice}원</span>
+                        <span>{maxPrice}원 목표</span>
+                    </div>
+                    <div>
+                        <span>{progressPercentage}% 달성</span>
+                        <span>{isExpired ? '0' : calculateDaysLeft(fundraising.endDate)}일 남음</span>
+                    </div>
+                </>
+            }
+            {rest.column &&
+                <div>
+                    <span>{nowPrice}원</span>
+                    <span>{progressPercentage}% </span>
+                </div>
+            }
+        </Progressbar>
+    )
+
+    const contentType = {
+        'card': (
             <Card
                 title={title}
                 subtext={agency}
                 href={`/fundraisings/${fundraising.id}/story`}
                 className={className}
-                {...rest}>
-                <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
-                    {rest.row &&
-                        <>
-                            <div>
-                                <span>{nowPrice}원</span>
-                                <span>{maxPrice}원 목표</span>
-                            </div>
-                            <div>
-                                <span>{progressPercentage}% 달성</span>
-                                <span>{isExpired ? '0' : calculateDaysLeft(fundraising.endDate)}일 남음</span>
-                            </div>
-                        </>
-                    }
-                    {rest.column &&
-                        <div>
-                            <span>{nowPrice}원</span>
-                            <span>{progressPercentage}% </span>
-                        </div>
-                    }
-                </Progressbar>
+                {...rest}
+            > {renderProgressbar()}
             </Card>
+        )
+    }
+
+    return (
+        <S.FundraisingContainer className={className}>
+            {contentType[type]}
         </S.FundraisingContainer>
     )
 }

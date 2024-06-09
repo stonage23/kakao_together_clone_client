@@ -1,6 +1,6 @@
 import Card from 'components/common/Card/Card';
 import Progressbar from 'components/common/Progressbar';
-import { calculateDaysLeft, calculateDiff, stringToDate } from 'utils/dateUtils';
+import { calculateDaysLeft, calculateDiff, deadlineState, stringToDate } from 'utils/dateUtils';
 import { calculatePercentage } from 'utils/progressUtils';
 import * as S from './Styled';
 
@@ -9,24 +9,22 @@ import * as S from './Styled';
  * @param {Fundraising} props.fundraising - 모금 객체
  * @param {string} props.className - 추가할 클래스명
  */
-const Fundraising = ({ fundraising, className, ...rest }) => {
-    
+const Fundraising = ({ fundraising, isExpired, type, className, ...rest }) => {
+
     if (!fundraising) {
         return null;
     }
-    
-    const endDate = stringToDate(fundraising.endDate);
-    const diff = calculateDiff(endDate);
-    const daysLeft = calculateDaysLeft(diff);
-    const {now: nowPrice, min: minPrice, max: maxPrice, title, agency} = fundraising;
+
+    const { now: nowPrice, min: minPrice, max: maxPrice, title, agency } = fundraising;
     const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
+    console.log(fundraising.endDate);
 
     return (
         <S.FundraisingContainer className={className}>
-            <Card 
-                title={title} 
-                subtext={agency} 
-                href={`/fundraisings/${fundraising.id}/story`} 
+            <Card
+                title={title}
+                subtext={agency}
+                href={`/fundraisings/${fundraising.id}/story`}
                 className={className}
                 {...rest}>
                 <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
@@ -38,7 +36,7 @@ const Fundraising = ({ fundraising, className, ...rest }) => {
                             </div>
                             <div>
                                 <span>{progressPercentage}% 달성</span>
-                                <span>{diff <= 0 ? '0' : daysLeft}일 남음</span>
+                                <span>{isExpired ? '0' : calculateDaysLeft(fundraising.endDate)}일 남음</span>
                             </div>
                         </>
                     }

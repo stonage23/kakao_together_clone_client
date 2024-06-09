@@ -5,7 +5,7 @@ import { CiHeart } from "react-icons/ci";
 import { fetchCampaignsByTag, fetchData, fetchTags } from 'api/api';
 import { handleCache } from 'utils/handleCache';
 import 'types/fundraising';
-import { calculateDiff, stringToDate } from 'utils/dateUtils.js';
+import { calculateDiff, calculateLeftTime, deadlineState } from 'utils/dateUtils.js';
 import Fundraising from '../Fundraising/Fundraising.js';
 import TimerContainer from '../Timer/TimerContainer.js';
 import { joinClassName } from 'utils/classNameUtil.js';
@@ -55,16 +55,6 @@ const CategoryContainer = ({ category }) => {
     return contentMap[category] || null;
 };
 
-// TODO 시간관리 유틸 별도로 빼기
-const dateUtils = (date) => {
-
-  const endDate = stringToDate(date);
-  const diff = calculateDiff(endDate);
-  const isExpired = (diff <= 0) ? true : false;
-
-  return {isExpired, diff};
-}
-
 /**
  * @param {Object} props 
  * @param {Fundraising} props.fundraising
@@ -73,6 +63,7 @@ const LastDonation = ({ category }) => {
 
   const {title, subText} = categoryList[category];
   const [fundraising, setFundraising] = useState();
+  const [isExpired, setIsExpired] = useState();
 
   useEffect(() => {
 
@@ -83,6 +74,9 @@ const LastDonation = ({ category }) => {
         // TODO 예외 처리
         const result = await fetchData("/campaigns/1");
         setFundraising(result);
+
+        const isExpired = deadlineState(fundraising.endDate);
+        setIsExpired(isExpired);
       } catch (e) {
         console.log(e);
       }
@@ -95,7 +89,7 @@ const LastDonation = ({ category }) => {
     return null;
   }
 
-  const {isExpired, diff} = dateUtils(fundraising.endDate);
+  const diff = calculateLeftTime(fundraising.endDate);
   const classDisabled = isExpired ? 'disabled' : '';
   const classHidden = isExpired ? 'hidden' : '';
 
@@ -109,7 +103,12 @@ const LastDonation = ({ category }) => {
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
       <S.LastDonationSingleContentContainer>
-        <Fundraising fundraising={fundraising} className={fundraisingClassName} row />
+        <Fundraising 
+          fundraising={fundraising} 
+          isExpired={isExpired} 
+          type='card' 
+          className={fundraisingClassName} 
+          row />
       </S.LastDonationSingleContentContainer>
       <ActionButtons className={classHidden}/>
     </S.LastDonationContainer>

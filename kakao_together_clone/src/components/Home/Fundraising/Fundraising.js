@@ -12,7 +12,7 @@ import * as S from './Styled';
  * @param {string} props.className 추가할 클래스명
  * @param {string} props.progressInfo progressInfo 몇 줄
  */
-const Fundraising = ({ fundraising, isExpired, type, className, progressInfo, ...rest}) => {
+const Fundraising = ({ fundraising, isExpired = false, type, className = '', progressInfo = '', ...rest}) => {
 
     if (!fundraising) {
         return null;
@@ -57,7 +57,7 @@ const Fundraising = ({ fundraising, isExpired, type, className, progressInfo, ..
                 href={`/fundraisings/${fundraising.id}/story`}
                 className={className}
                 {...rest}
-            > {renderProgressbar()}
+                > {renderProgressbar()}
             </Card>
         )
     }

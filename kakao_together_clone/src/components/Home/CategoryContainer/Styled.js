@@ -5,7 +5,6 @@ import { getMaxWidth, getMinWidth } from "utils/stylesUtil";
 import { TimeDisplay } from "components/TimeDisplay/Styled";
 import { TimerContainer } from "../Timer/Styled";
 import { Link } from "react-router-dom";
-import { Card } from "components/common/Card";
 
 export const CampaignText = styled.div`
     overflow-wrap: break-word;
@@ -117,7 +116,7 @@ export const DefaultContentCardContainer = styled(DefaultContentContainer)`
     ${CardStyle};
 `;
 
-export const SingleContentContainer = styled(DefaultContentCardContainer)`
+export const SingleContentCardContainer = styled(DefaultContentCardContainer)`
     
     margin: calc(-12px) 0px;
 
@@ -142,7 +141,7 @@ export const SingleContentContainer = styled(DefaultContentCardContainer)`
         }
 `;
 
-export const MultipleContentContainer = styled(DefaultContentCardContainer)`
+export const MultipleContentCardContainer = styled(DefaultContentCardContainer)`
 
     display: flex;
     
@@ -153,7 +152,7 @@ export const MultipleContentContainer = styled(DefaultContentCardContainer)`
 
 `;
 
-export const TripleContentContainer = styled(MultipleContentContainer)`
+export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
     
     & .card_title {
         font-size: 14px;
@@ -264,7 +263,7 @@ export const LastDonationContainer = styled(DefaultCategoryContainer)`
         & ${ImageCover} {
             position: absolute;
             z-index: 100;
-            top: 86px;
+            top: 90px;
             width: 280px;
             background-color: black;
         }   
@@ -316,24 +315,16 @@ export const LastDonationContainer = styled(DefaultCategoryContainer)`
     }
 `;
 
-export const LastDonationSingleContentContainer = styled(SingleContentContainer)`
+export const LastDonationSingleContentCardContainer = styled(SingleContentCardContainer)`
     
+    padding-top: 10px;
 `;
-
-
-
-
-
-
 
 export const TopDonationsWrapper = styled(DefaultCategoryContainer)`
     
-    & {
-       
-    }
 `;
 
-export const TopDonationsMultiContentContainer = styled(TripleContentContainer)`
+export const TopDonationsTripleContentCardContainer = styled(TripleContentCardContainer)`
     
     padding-top: 12px;
     

@@ -102,15 +102,15 @@ const LastDonation = ({ category }) => {
       </S.ImageCover>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
-      <S.LastDonationSingleContentContainer>
+      <S.LastDonationSingleContentCardContainer>
         <Fundraising 
           fundraising={fundraising} 
           isExpired={isExpired} 
           type='card' 
           className={fundraisingClassName}
           progressInfo='twoline'
-          row />
-      </S.LastDonationSingleContentContainer>
+        />
+      </S.LastDonationSingleContentCardContainer>
       <ActionButtons className={classHidden}/>
     </S.LastDonationContainer>
   );
@@ -149,15 +149,23 @@ const TopDonations = ({ category, data }) => {
     initializeData();
   }, []);
 
+  const fundraisingClassName = 'content_card';
+
   return (
     <S.TopDonationsWrapper>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
-      <S.TopDonationsMultiContentContainer>
+      <S.TopDonationsTripleContentCardContainer>
         {fundraisingList && fundraisingList.map(item => (
-          <Fundraising key={item.id} fundraising={item} />
+          <Fundraising 
+            key={item.id}
+            fundraising={item} 
+            type='card' 
+            className={fundraisingClassName}
+            progressInfo='oneline'
+          />
         ))}
-      </S.TopDonationsMultiContentContainer>
+      </S.TopDonationsTripleContentCardContainer>
     </S.TopDonationsWrapper>
   )
 };

@@ -107,7 +107,8 @@ const LastDonation = ({ category }) => {
           fundraising={fundraising} 
           isExpired={isExpired} 
           type='card' 
-          className={fundraisingClassName} 
+          className={fundraisingClassName}
+          progressInfo='twoline'
           row />
       </S.LastDonationSingleContentContainer>
       <ActionButtons className={classHidden}/>

@@ -1,7 +1,9 @@
+import withLogin from 'components/Header/withLogin';
 import React, { createContext, useContext, useState } from 'react';
 
 
 const UserContext = createContext();
+const DisplayWithLogin = withLogin();
 
 /**
  * @typedef {Object} UserContext
@@ -14,20 +16,28 @@ const UserContext = createContext();
 const UserProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     /**
      * @description 이 함수는 사용자가 로그인할 때 호출됩니다.
      */
     const login = (userData) => {
+
+        setIsLoading(true);
+
         const fetchUserData = async () => {
             const userData = await fetchUserFromAPI(); // Replace this with your actual API call
             if (userData) {
                 setUser(userData);
             }
         };
-    
-        fetchUserData();
+        
+        // NOTE 고차 함수 사용해보기위해 만듦
+        setTimeout(() => {
+            fetchUserData();
+            setIsLoading(false);
+        }, 500);
         // Optionally save to localStorage or cookie
     };
 
@@ -43,6 +53,7 @@ const UserProvider = ({ children }) => {
     
     return (
         <UserContext.Provider value={{ user, login, logout }}>
+            <DisplayWithLogin isLoading={isLoading} />
             {children}
         </UserContext.Provider>
     );

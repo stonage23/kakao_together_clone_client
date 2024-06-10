@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import * as S from './Styled';
-import { Link, matchPath, useLocation, useMatch } from 'react-router-dom';
+import { Link, matchPath } from 'react-router-dom';
 import { FaBars, FaSearch } from 'react-icons/fa';
 import images from 'assets/images';
 import { SideMenu } from './SideMenu';
 import { MaskingImage } from 'components/MaskingImage';
 import { useUserContext } from 'contexts/UserContext';
 import { useLocationContext } from 'contexts/LocationContext';
+import { LoginLoading } from './withLogin';
 
 const navItems = [
   { path: '/', label: '홈', matchPatterns: ['/'] },

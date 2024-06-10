@@ -91,7 +91,7 @@ const GolobalStyles = createGlobalStyle`
     }
 
 
-@font-face {
+/* @font-face {
   font-family: "KakaoBold";
   font-weight: normal;
   src: url("./styles/fonts/ChosunCentennial_ttf.ttf") format('truetype');
@@ -100,7 +100,7 @@ const GolobalStyles = createGlobalStyle`
   font-family: "Kakao Regular";
   font-weight: 'normal';
   src: url('styles/fonts/KakaoRegular.ttf');
-}
+} */
 
 
 `;

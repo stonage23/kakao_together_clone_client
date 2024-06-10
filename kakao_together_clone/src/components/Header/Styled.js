@@ -147,7 +147,7 @@ export const Link = styled.div`
 
 export const MenuItem = styled.div`
 
-    ${({isactive}) => isactive && css `border-bottom: solid 1px black;`}
+    ${({$isactive}) => $isactive && css `border-bottom: solid 1px black;`}
     height: 100%;
     display: flex;
     justify-content: center;

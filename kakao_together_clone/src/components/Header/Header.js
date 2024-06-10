@@ -72,9 +72,13 @@ export default function Header() {
           <S.Menus as='ul'>
             {renderMenuItem()}
           </S.Menus>
-          {/* <button onClick={login}>로그인</button>
-          <button onClick={logout}>로그아웃</button>
-          <div>{user ? '로그인' : '로그아웃'}</div> */}
+          {process.env.NODE_ENV === 'development' ? (
+            <>
+            <button onClick={login}>로그인</button>
+            <button onClick={logout}>로그아웃</button>
+            <div>{user ? '로그인' : '로그아웃'}</div> 
+            </>
+          )  : ''}
         </S.Navigation>
         <S.UserProfileLinkWrapper>
           <S.UserProfileLink as={Link} to={"/UserProfile_hardcoding"}>

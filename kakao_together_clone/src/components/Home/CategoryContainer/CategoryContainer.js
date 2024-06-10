@@ -4,8 +4,7 @@ import Button from '../../common/Button/Button.js';
 import { CiHeart } from "react-icons/ci";
 import { fetchCampaignsByTag, fetchData, fetchTags } from 'api/api';
 import { handleCache } from 'utils/handleCache';
-import 'types/fundraising';
-import { calculateDiff, calculateLeftTime, deadlineState } from 'utils/dateUtils.js';
+import { calculateLeftTime, deadlineState } from 'utils/dateUtils.js';
 import Fundraising from '../Fundraising/Fundraising.js';
 import TimerContainer from '../Timer/TimerContainer.js';
 import { joinClassName } from 'utils/classNameUtil.js';
@@ -28,21 +27,6 @@ const categoryList = {
   }
 };
 
-/**
- * @param {Object} props - 컴포넌트의 props
- * @param {Object} props.category - 카테고리 객체
- * @param {string} props.category.title - 카테고리 제목
- * @param {string} props.category.subText - 카테고리 설명
- * @param {string} props.category.type - 카테고리 타입
- * @param {string} props.category.href - 링크 
- */
-
-/**
- * fundraising - 모금중인 펀딩에 대한 정보 객체
- * @param {Object} props 
- * @param {Fundraising} props.fundraising
- */
-
 const CategoryContainer = ({ category }) => {
 
     const contentMap = {
@@ -55,14 +39,14 @@ const CategoryContainer = ({ category }) => {
     return contentMap[category] || null;
 };
 
-/**
- * @param {Object} props 
- * @param {Fundraising} props.fundraising
- */
+
 const LastDonation = ({ category }) => {
 
-  const {title, subText} = categoryList[category];
+  /**
+   * @type {[Fundraising]}
+  */
   const [fundraising, setFundraising] = useState();
+  const {title, subText} = categoryList[category];
   const [isExpired, setIsExpired] = useState();
 
   useEffect(() => {
@@ -215,7 +199,7 @@ const TagDonations = ({ category }) => {
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
       <S.Tablist>
         {tags && tags.map((tag, index) => (
-          <S.ButtonTab key={tag.id} onClick={() => handleTagClick(tag.id, index)} active={activeIndex === index}>
+          <S.ButtonTab key={tag.id} onClick={() => handleTagClick(tag.id, index)} $active={activeIndex === index}>
             <span>#</span><span>{tag.tag}</span>
           </S.ButtonTab>
         ))

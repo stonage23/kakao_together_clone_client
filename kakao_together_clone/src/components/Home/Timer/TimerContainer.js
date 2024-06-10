@@ -20,7 +20,7 @@ function TimerContainer({time: initialTime, className}) {
 
   return (
     <S.TimerContainer className={className}>
-      <Clock state={currentTimeLeft !== 0 ? 'go' : 'stop'}/>
+      <Clock $state={currentTimeLeft !== 0 ? 'go' : 'stop'}/>
       <TimeDisplay time={currentTimeLeft} separator=":" />
     </S.TimerContainer>
   )

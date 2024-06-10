@@ -26,3 +26,9 @@ yarn-error.log*
 
 # 내 파일
 *.dev.txt
+
+# 로그 파일
+*.log
+
+# 확장 프로그램 설정 파일
+.prettierrc

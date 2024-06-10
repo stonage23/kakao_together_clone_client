@@ -51,7 +51,7 @@ const ClockHand = styled.div`
 function Clock({state}) {
   return (
     <ClockFace>
-      <ClockHand state={state} />
+      <ClockHand $state={state} />
     </ClockFace>
   );
 }

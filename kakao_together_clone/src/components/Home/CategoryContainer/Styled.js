@@ -387,7 +387,7 @@ export const ButtonTab = styled(Button)`
     border-radius: 1000px;
     padding: 7px 14px;
 
-    ${({active}) => active && css`
+    ${({$active}) => $active && css`
         background-color: rgb(32, 32, 32);
         color: rgb(255, 255, 255);
     `}

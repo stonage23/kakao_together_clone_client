@@ -7,7 +7,6 @@ import { SideMenu } from './SideMenu';
 import { MaskingImage } from 'components/MaskingImage';
 import { useUserContext } from 'contexts/UserContext';
 import { useLocationContext } from 'contexts/LocationContext';
-import { LoginLoading } from './withLogin';
 
 const navItems = [
   { path: '/', label: '홈', matchPatterns: ['/'] },
@@ -15,7 +14,7 @@ const navItems = [
   { path: '/fundraisings/now', label: '같이기부', matchPatterns: ['/fundraisings/now', '/fundraisings/:id/story'] },
   { path: '/actions/projects', label: '모두의행동', matchPatterns: ['/actions'] },
   { path: '/hello', label: '마음날씨', matchPatterns: ['/hello'] },
-  { path: '/boards/campaigns', label: '캠페인', matchPatterns: ['/boards'] },
+  { path: '/boards/fundraisings', label: '캠페인', matchPatterns: ['/boards'] },
 ];
 
 export default function Header() {

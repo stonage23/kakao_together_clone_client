@@ -196,7 +196,7 @@ export const TripleContentCardContainer = styled(MultipleContentCardContainer)`
         
         & .content_card {
             margin: 0px calc(12px);
-            width: calc(33.33% - 20px);
+            width: calc(33.33% - 24px);
         }
 
         & .card_thumbnail {

@@ -53,11 +53,11 @@ export const fetchTags = async () => {
 }
 
 
-export const fetchCampaignsByTag = async (tagId) => {
+export const fetchFundraisingsByTag = async ({count = 3, tagId}) => {
   try {
-    return fetchData(`/campaigns?tagId=${tagId}`);
+    return fetchData(`/fundraisings`, {count, tagId});
   } catch (error) {
-    console.error('fetchCampaignsByTag request failed:', error);
+    console.error('fetchFundraisingsByTag request failed:', error);
     throw error;
   }
 };

@@ -1,6 +1,5 @@
-{
-    "fundraisings": [
-        {
+export const fundraisingMock = [
+    {
         "id": 1,
         "tagId": 1,
         "title": "자립준비청년 우한이, 사회 첫걸음에 날개asdfsadfsafas ddfasdfsaddf를 달아주세요g ㄴㅁㅇㅁㅇㅁㄴㅇㄴㅁ ㅁㄴㅇㄴㅁㅇㄴㅁㅇㄴㅁㅇ ㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇ ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇkgkkgkgkgkgkgkgk 가나다라 마바사 아자차카 타파하!",
@@ -10,8 +9,8 @@
         "now": 350000,
         "endDate": "2024-06-30",
         "images": []
-        },
-        {
+    },
+    {
         "id": 2,
         "tagId": 1,
         "title": "생리대 다니고 싶어요...가나다라마바사아자차카타파하abcdefghijklmnopqrstuvwxyz",
@@ -21,8 +20,8 @@
         "now": 350000,
         "endDate": "2024-05-30",
         "images": []
-        },
-        {
+    },
+    {
         "id": 3,
         "tagId": 2,
         "title": "살아남기 위해 고향을 떠남",
@@ -32,8 +31,8 @@
         "now": 670000,
         "endDate": "2024-05-30",
         "images": []
-        },
-        {
+    },
+    {
         "id": 4,
         "tagId": 2,
         "title": "생리대 다니고 싶어요...가나다라마바사아자차카타파하abcdefghijklmnopqrstuvwxyz",
@@ -43,51 +42,20 @@
         "now": 350000,
         "endDate": "2024-05-30",
         "images": []
-        }
-    ],
-    "tags": [
-        {
-        "id": 1,
-        "tag": "교육지원"
-        },
-        {
-        "id": 2,
-        "tag": "지역아동센터"
-        },
-        {
-        "id": 3,
-        "tag": "실버세대"
-        }
-    ],
-    "mindWethers" : [
-        {
-            "id": 1,
-            "title": "나의 나르시시즘 레벨은?",
-            "count": 244330,
-            "thumbnail": "assets/images/hello/img_a_1.png",
-            "image": []
-        },
-        {
-            "id": 2,
-            "title": "나는 어떤 꽃일까?",
-            "count": 263828,
-            "thumbnail": "assets/images/hello/img_a_2.png",
-            "image": []
-        },
-        {
-            "id": 3,
-            "title": "나랑 가장 닮은 강아지는?",
-            "count": 142321,
-            "thumbnail": "assets/images/hello/img_a_3.png",
-            "image": []
-        },
-        {
-            "id": 4,
-            "title": "세상을 보는 나의 눈",
-            "count": 196881,
-            "thumbnail": "assets/images/hello/img_a_4.png",
-            "image": []
-        }
-    ]
-}
-  
+    }
+];
+
+export const tagMock = [
+    {
+    "id": "1",
+    "tag": "교육지원"
+    },
+    {
+    "id": "2",
+    "tag": "지역아동센터"
+    },
+    {
+    "id": "3",
+    "tag": "실버세대"
+    }
+];

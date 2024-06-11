@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import * as S from './Styled.js';
 import Button from '../../common/Button/Button.js';
 import { CiHeart } from "react-icons/ci";
-import { fetchCampaignsByTag, fetchData, fetchTags } from 'api/api';
+import { fetchFundraisingsByTag, fetchData, fetchTags } from 'api/api';
 import { handleCache } from 'utils/handleCache';
 import { calculateLeftTime, deadlineState } from 'utils/dateUtils.js';
 import Fundraising from '../Fundraising/Fundraising.js';
 import TimerContainer from '../Timer/TimerContainer.js';
 import { joinClassName } from 'utils/classNameUtil.js';
+import { fundraisingMock, tagMock } from 'mocks/mockData.js';
 
 const categoryList = {
   last_donations: {
@@ -51,22 +52,29 @@ const LastDonation = ({ category }) => {
 
   useEffect(() => {
 
-    const initializeData = async () => {
-      try {
+    // NOTE 개발환경(development) mock 데이터 사용
+    if (process.env.NODE_ENV === 'development') {
+      setFundraising(fundraisingMock[0]);
+      setIsExpired(false);
+    }
+    else {
 
-        // TODO (임시) API 작성하기
+      const initializeData = async () => {
+        try {
+          
         // TODO 예외 처리
-        const result = await fetchData("/campaigns/1");
+        const result = await fetchData("/fundraisings/expiring-soon", {params: {count: 1, left: 2}});
         setFundraising(result);
-
+    
         const isExpired = deadlineState(fundraising.endDate);
         setIsExpired(isExpired);
-      } catch (e) {
-        console.log(e);
-      }
-    };
+        } catch (e) {
+          console.log(e);
+        }
+      };
 
-    initializeData();
+      initializeData();
+    }
   }, []);
 
   if (!fundraising) {
@@ -116,21 +124,24 @@ const TopDonations = ({ category }) => {
   // TODO API 임시로 된거 실제로 작성
   useEffect(() => {
 
-    const initializeData = async () => {
-      try {
+    if (process.env.NODE_ENV === 'development') {
+      const [mock1, mock2, mock3] = fundraisingMock;
+      setFundraisingList([mock1, mock2, mock3]);
 
-        // TODO (임시) API 작성하기
-        // TODO 예외 처리
-        const result1 = await fetchData("/campaigns/1");
-        const result2 = await fetchData("/campaigns/2");
-        const result3 = await fetchData("/campaigns/3");
-        setFundraisingList([result1, result2, result3]);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    initializeData();
+    } else {
+      const initializeData = async () => {
+        try {
+  
+          // TODO 예외 처리
+          const result = await fetchData("/fundraisings/top-rate", {params: {count: 3}});
+          setFundraisingList(result);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+  
+      initializeData();
+    }
   }, []);
 
   return (
@@ -163,34 +174,64 @@ const TagDonations = ({ category }) => {
 
 
   useEffect(() => {
-    const initializeTagData = async () => {
 
-      try {
-        const tagsResult = await fetchTags();
-        setTags(tagsResult);
+    if (process.env.NODE_ENV === 'development') {
+      const [tag1, tag2, tag3] = tagMock;
+      setTags([tag1, tag2, tag3]);
+      handleTagClick(tag1.id, 0);
 
-        if (tagsResult.length > 0) {
-          handleTagClick(tagsResult[0].id, 0);
+    } else {
+      const initializeTagData = async () => {
+        
+        try {
+          const tagsResult = await fetchTags();
+          setTags(tagsResult);
+
+          if (tagsResult.length > 0) {
+            handleTagClick(tagsResult[0].id, 0);
+          }
+
+        } catch (e) {
+          console.e('initializeTagData failed:', e);
         }
-      } catch (e) {
-        console.e('initializeTagData failed:', e);
-      }
-    };
+      };
 
-    initializeTagData();
+      initializeTagData();
+    }
   }, []);
 
   const handleTagClick = async (tagId, index) => {
 
-    try {
-      const result = await handleCache(tagId, fundraisingCache, () => fetchCampaignsByTag(tagId));
-      setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: result }));
-      setFundraisingList(result);
-    } catch (e) {
-      console.e('handleTagClick failed:', e);
-    }
+    if (process.env.NODE_ENV === 'development') {
+      const [fundraising1, fundraising2, fundraising3, fundraising4] = fundraisingMock;
 
-    setActiveIndex(index);
+      console.log('하하하');
+      let data = null;
+      if (tagId === "1") {
+        data = [fundraising1, fundraising2, fundraising3];
+      }
+      if (tagId === "2") {
+        data = [fundraising2, fundraising3, fundraising4];
+      }
+      if (tagId === "3") {
+        data = [fundraising3, fundraising4, fundraising1];
+      }
+      setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: data }));
+      setFundraisingList(data);
+      setActiveIndex(index);
+
+    } else {
+      try {
+        const result = await handleCache(tagId, fundraisingCache, () => fetchFundraisingsByTag(tagId));
+        setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: result }));
+        setFundraisingList(result);
+
+      } catch (e) {
+        console.e('handleTagClick failed:', e);
+      }
+
+      setActiveIndex(index);
+    }
   };
 
   return (

@@ -1,4 +1,17 @@
 /**
+ * 
+ * @param {string} [delimiter='.'] 구분자
+ * @param {boolean} [space=false] 구분자 기준 공백을 둘 것인지 
+ * @returns 
+ */
+export const formatTodayToKorean = (delimiter = '.', space = false) => {
+    const date = new Date().toLocaleDateString('ko-KR').replace(/ /g, '').slice(0, -1);
+    const joiner = space ? delimiter + ' ' : delimiter + '';
+    return date.replace(/\./g, joiner);
+
+}
+
+/**
  * 특정 형식의 문자열 타입의 날짜를 넣으면 남은 일수를 반환
  * @param {string} date 마감일 (형식: YYYY-MM-DD)
  * @returns {number} 남은 일수
@@ -96,3 +109,4 @@ const stringToDate = (date) => {
 
     return new Date(year, month - 1, dayPart);
 }
+

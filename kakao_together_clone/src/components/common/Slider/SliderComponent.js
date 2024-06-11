@@ -6,7 +6,7 @@ import './SliderComponent.css';
 import { TotalTabPanel } from 'components/Home/CategoryContainer/Styled';
 import useDynamicClamp from 'utils/useDynamicClamp';
 
-const SliderComponent = () => {
+const SliderComponent = ({data}) => {
     const settings = {
         dots: true, // 슬라이더 하단에 dot 네비게이션 보여줌(true)
         infinite: true, // 무한 루프 슬라이더(true)
@@ -69,8 +69,8 @@ const SliderComponent = () => {
     return (
         <div className="slider_container" style={{ position: 'relative' }}>
             <Slider {...settings}>
-                {slides.map(slide => (
-                    DynamicClampItem(slide)
+                {slides.map(data => (
+                    DynamicClampItem(data)
                 ))}
             </Slider>
         </div>

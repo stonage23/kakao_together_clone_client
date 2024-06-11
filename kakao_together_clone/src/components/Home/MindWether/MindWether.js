@@ -2,24 +2,34 @@ import Card from 'components/common/Card/Card';
 import { ExternalHyperlink, Title } from 'components/CommonStyles/Styled';
 import React, { useEffect, useState } from 'react'
 import * as S from './Styled';
-import axiosInstance from 'api/axiosInstance';
+import { fetchData } from 'api/api';
+import { personalityTestMock } from 'mocks/mockData';
 
 function MindWether() {
 
-    const [mindWetherList, setMindWetherList] = useState([]);
+    const [personalityTestList, setPersonalityTestList] = useState([]);
 
     useEffect(() => {
 
-        const fetchApi = async () => {
+        if (process.env.NODE_ENV === 'development') {
+            const personalityTest = personalityTestMock;
+            setPersonalityTestList(personalityTest);
+            
+        } else {
+
+        const initializeData = async () => {
+
             try {
-                const result = await axiosInstance.get("/mindWethers");
-                setMindWetherList(result.data);
+                const result = await fetchData('/personality-test', {count: 4})
+                setPersonalityTestList(result.data);
+
             } catch (e) {
                 console.log(e);
             }
         }
 
-        fetchApi();
+        initializeData();
+        }
     }, []);
 
     const renderMindWetherList = (list) => {
@@ -51,7 +61,7 @@ function MindWether() {
         <ExternalHyperlink>
             <Title>오늘 너의 마음 날씨는 어때?</Title>
         </ExternalHyperlink>
-        {renderMindWetherList(mindWetherList)}
+        {renderMindWetherList(personalityTestList)}
     </S.MindWetherContainer>
     )
 }

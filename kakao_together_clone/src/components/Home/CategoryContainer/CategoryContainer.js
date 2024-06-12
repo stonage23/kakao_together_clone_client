@@ -3,15 +3,16 @@ import * as S from './Styled.js';
 import Button from '../../common/Button/Button.js';
 import { CiHeart } from "react-icons/ci";
 import { fetchFundraisingsByTag, fetchData, fetchTags } from 'api/api';
-import { handleCache } from 'utils/handleCache';
-import { calculateLeftTime, deadlineState } from 'utils/dateUtils.js';
-import Fundraising from '../Fundraising/Fundraising.js';
+import { calculateDaysLeft, calculateLeftTime, deadlineState } from 'utils/dateUtils.js';
 import TimerContainer from '../Timer/TimerContainer.js';
 import { joinClassName } from 'utils/classNameUtil.js';
 import { fundraisingMock, tagMock } from 'mocks/mockData.js';
+import Progressbar from 'components/common/Progressbar/Progressbar.js';
+import Card from 'components/common/Card/Card.js';
+import { calculatePercentage } from 'utils/progressUtils.js';
 
 const categoryList = {
-  last_donations: {
+  last_donation: {
     title: "마지막 기부자를 찾습니다",
     subText: "목표 달성까지 얼마 남지 않았어요!",
     href: null
@@ -31,23 +32,20 @@ const categoryList = {
 const CategoryContainer = ({ category }) => {
 
     const contentMap = {
-      'last_donations': <LastDonation category={category} />,
-      'top_donations': <TopDonations category={category} />,
-      'tag_donations': <TagDonations category={category} />
+      'last_donation': <LastDonationContainer />,
+      'top_donations': <TopDonationsConatainer />,
+      'tag_donations': <TagDonationsContainer />
     };
 
     // NOTE null로 반환하면서 로그를 남겨야 할것 같은데
     return contentMap[category] || null;
 };
 
-
-const LastDonation = ({ category }) => {
-
+const LastDonationContainer = () => {
   /**
    * @type {[Fundraising]}
   */
   const [fundraising, setFundraising] = useState();
-  const {title, subText} = categoryList[category];
   const [isExpired, setIsExpired] = useState();
 
   useEffect(() => {
@@ -77,15 +75,23 @@ const LastDonation = ({ category }) => {
     }
   }, []);
 
-  if (!fundraising) {
-    return null;
-  }
+  return <LastDonation fundraising={fundraising} isExpired={isExpired} />
+}
+
+const LastDonation = ({ fundraising, isExpired }) => {
+
+  // TODO 모금이 없을 때 보여줄 UI 및 처리
+  if (!fundraising) return null;
+
+  const {title, subText} = categoryList['last_donation'];
 
   const diff = calculateLeftTime(fundraising.endDate);
   const classDisabled = isExpired ? 'disabled' : '';
   const classHidden = isExpired ? 'hidden' : '';
 
-  const fundraisingClassName = joinClassName([classDisabled, 'content_card']);
+  const { now: nowPrice, min: minPrice, max: maxPrice, title: cardTitle, agency: cardSubtext } = fundraising;
+  const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
+  const cardClassName = joinClassName([classDisabled, 'content_card']);
 
   return (
     <S.LastDonationContainer>
@@ -95,13 +101,24 @@ const LastDonation = ({ category }) => {
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
       <S.LastDonationSingleContentCardContainer>
-        <Fundraising 
-          fundraising={fundraising} 
-          isExpired={isExpired} 
-          type='card' 
-          className={fundraisingClassName}
-          progressInfo='twoline'
-        />
+        <S.SingleContentCardWrapper className={`content_card ${cardClassName}`}>
+          <Card
+            title={cardTitle}
+            subtext={cardSubtext}
+            href={`/fundraisings/${fundraising.id}/story`}
+          > 
+            <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
+                <div>
+                    <span>{nowPrice}원</span>
+                    <span>{maxPrice}원 목표</span>
+                </div>
+                <div>
+                    <span>{progressPercentage}% 달성</span>
+                    <span>{isExpired ? '0' : calculateDaysLeft(fundraising.endDate)}일 남음</span>
+                </div>
+            </Progressbar>
+          </Card>
+        </S.SingleContentCardWrapper>
       </S.LastDonationSingleContentCardContainer>
       <ActionButtons className={classHidden}/>
     </S.LastDonationContainer>
@@ -116,12 +133,10 @@ const ActionButtons = ({className}) => (
   </S.ActionContainer>
 );
 
-const TopDonations = ({ category }) => {
+const TopDonationsConatainer = () => {
 
   const [fundraisingList, setFundraisingList] = useState([]);
-  const {title, subText} = categoryList[category];
   
-  // TODO API 임시로 된거 실제로 작성
   useEffect(() => {
 
     if (process.env.NODE_ENV === 'development') {
@@ -144,52 +159,64 @@ const TopDonations = ({ category }) => {
     }
   }, []);
 
+  return <TopDonations fundraisingList={fundraisingList}/>
+}
+
+const TopDonations = ({fundraisingList}) => {
+
+  if (!fundraisingList) return null;
+
+  const {title, subText} = categoryList['top_donations'];
+
   return (
     <S.TopDonationsConatainer>
       <S.CategoryTitle> <span>{title}</span> </S.CategoryTitle>
       <S.CategoryParagraph as='p'>{subText}</S.CategoryParagraph>
       <S.TopDonationsTripleContentCardContainer>
-        {fundraisingList && fundraisingList.map(item => (
-          <Fundraising 
-            key={item.id}
-            fundraising={item} 
-            type='card' 
-            progressInfo='oneline'
-          />
-        ))}
+        {fundraisingList && fundraisingList.map(fundraising => {
+          const { now: nowPrice, min: minPrice, max: maxPrice, title: cardTitle, agency: cardSubtext } = fundraising;
+          const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
+          return (
+            <S.SingleContentCardWrapper className={'content_card'}>
+              <Card
+                title={cardTitle}
+                subtext={cardSubtext}
+                href={`/fundraisings/${fundraising.id}/story`}
+              > 
+                <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
+                    <div>
+                        <span>{nowPrice}원</span>
+                        <span>{progressPercentage}%</span>
+                    </div>
+                </Progressbar>
+              </Card>
+            </S.SingleContentCardWrapper>
+          )
+        })}
       </S.TopDonationsTripleContentCardContainer>
     </S.TopDonationsConatainer>
   )
 };
 
-const TagDonations = ({ category }) => {
-
-  const {title, subText, href} = categoryList[category];
+const TagDonationsContainer = () => {
 
   const [fundraisingList, setFundraisingList] = useState([]);
   const [fundraisingCache, setFundraisingCache] = useState({});
-
   const [tags, setTags] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-
 
   useEffect(() => {
 
     if (process.env.NODE_ENV === 'development') {
       const [tag1, tag2, tag3] = tagMock;
       setTags([tag1, tag2, tag3]);
-      handleTagClick(tag1.id, 0);
 
     } else {
       const initializeTagData = async () => {
-        
         try {
           const tagsResult = await fetchTags();
           setTags(tagsResult);
 
-          if (tagsResult.length > 0) {
-            handleTagClick(tagsResult[0].id, 0);
-          }
+          
 
         } catch (e) {
           console.e('initializeTagData failed:', e);
@@ -198,34 +225,63 @@ const TagDonations = ({ category }) => {
 
       initializeTagData();
     }
-  }, []);
+    }, []);
 
-  const handleTagClick = async (tagId, index) => {
+    const handleCache = async (tagId) => {
+      if (process.env.NODE_ENV === 'development') {
+        const [fundraising1, fundraising2, fundraising3, fundraising4] = fundraisingMock;
+        const data = {
+          "1" : [fundraising1, fundraising2, fundraising3],
+          "2" : [fundraising2, fundraising3, fundraising4],
+          "3" : [fundraising3, fundraising4, fundraising1]
+        }
+        const fundraisingList = data[tagId];
+        setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: fundraisingList }));
+        setFundraisingList(fundraisingList);
+  
+      } else {
+        try {
+          const result = await handleCache(tagId, fundraisingCache, () => fetchFundraisingsByTag(tagId));
+          setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: result }));
+          setFundraisingList(result);
+  
+        } catch (e) {
+          console.e('handleCache failed:', e);
+        }
+      }
+    }
 
+  return <TagDonations tags={tags} fundraisingList={fundraisingList} handleCache={handleCache} />
+}
+
+const TagDonations = ({ tags, fundraisingList, handleCache }) => {
+
+  const {title, subText, href} = categoryList['tag_donations'];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+
+    // NOTE TagDonations UI 개발 Mock데이터 
     if (process.env.NODE_ENV === 'development') {
-      const [fundraising1, fundraising2, fundraising3, fundraising4] = fundraisingMock;
+      const [fundraising1, fundraising2, fundraising3] = fundraisingMock;
+      fundraisingList = [fundraising1, fundraising2, fundraising3];
+    
+    } else {
+      if (tags.length > 0) {
+        handleTagClick(tags[0].id, 0);
+      }
+    }
+  }, [tags]);
 
-      console.log('하하하');
-      let data = null;
-      if (tagId === "1") {
-        data = [fundraising1, fundraising2, fundraising3];
-      }
-      if (tagId === "2") {
-        data = [fundraising2, fundraising3, fundraising4];
-      }
-      if (tagId === "3") {
-        data = [fundraising3, fundraising4, fundraising1];
-      }
-      setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: data }));
-      setFundraisingList(data);
+  // TODO 테스트 코드 작성하든가 아니면 그냥 Mock 데이터 없애고 연동 시키든가
+  const handleTagClick = async (tagId, index) => {
+    
+    if (process.env.NODE_ENV === 'development') {
       setActiveIndex(index);
 
     } else {
       try {
-        const result = await handleCache(tagId, fundraisingCache, () => fetchFundraisingsByTag(tagId));
-        setFundraisingCache(prevCache => ({ ...prevCache, [tagId]: result }));
-        setFundraisingList(result);
-
+        handleCache(tagId);
       } catch (e) {
         console.e('handleTagClick failed:', e);
       }
@@ -248,14 +304,26 @@ const TagDonations = ({ category }) => {
       </S.Tablist>
       <S.TotalTabPanel>
       <S.TagDonationsTripleContentCardContainer>
-        {fundraisingList && fundraisingList.map(item => (
-          <Fundraising 
-            key={item.id}
-            fundraising={item} 
-            type='card' 
-            progressInfo='oneline'
-          />
-        ))}
+        {fundraisingList && fundraisingList.map(fundraising => {
+          const { now: nowPrice, min: minPrice, max: maxPrice, title: cardTitle, agency: cardSubtext } = fundraising;
+          const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
+          return (
+            <S.SingleContentCardWrapper className={'content_card'}>
+              <Card
+                title={cardTitle}
+                subtext={cardSubtext}
+                href={`/fundraisings/${fundraising.id}/story`}
+              > 
+                <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
+                    <div>
+                        <span>{nowPrice}원</span>
+                        <span>{progressPercentage}%</span>
+                    </div>
+                </Progressbar>
+              </Card>
+            </S.SingleContentCardWrapper>
+          )
+        })}
       </S.TagDonationsTripleContentCardContainer>
       </S.TotalTabPanel>
     </S.TagDonationsContainer>

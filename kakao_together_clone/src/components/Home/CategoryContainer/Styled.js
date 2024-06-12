@@ -339,6 +339,13 @@ export const LastDonationSingleContentCardContainer = styled(SingleContentCardCo
     padding-top: 10px;
 `;
 
+export const SingleContentCardWrapper = styled.div`
+
+    box-sizing: border-box;
+    height: 150px;
+    width: 300px;
+`;
+
 export const TopDonationsConatainer = styled(DefaultCategoryContainer)`
     
 `;

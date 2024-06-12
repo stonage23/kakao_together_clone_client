@@ -7,7 +7,7 @@ import CategoryContainer from './CategoryContainer';
 
 
 const categoryList = [
-  { id: 1, category: "last_donations" },
+  { id: 1, category: "last_donation" },
   { id: 2, category: 'top_donations' },
   { id: 3, category: 'tag_donations' }
 ];

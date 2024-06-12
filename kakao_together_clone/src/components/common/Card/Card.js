@@ -1,9 +1,10 @@
 import { Span } from "components/CommonStyles/Styled";
 import * as S from './Styled';
 import { Link } from "react-router-dom";
+import { forwardRef } from "react";
 
 // TODO useEffect 에러 처리 나중에 수정
-const Card = ({title, children, subtext, href, thumbnail}) => {
+const Card = forwardRef(({title, children, subtext, href, thumbnail}, titleRef) => {
 
     if (!title) {
         return null;
@@ -13,12 +14,12 @@ const Card = ({title, children, subtext, href, thumbnail}) => {
         <S.CardInner thumbnail={thumbnail} as={Link} className='card_inner' to={href}>
             <div className='card_thumbnail'></div>
             <div className='card_content'>
-                <strong className='card_title'>{title}</strong>
+                <strong className='card_title' ref={titleRef}>{title}</strong>
                 <Span className='card_subtext'>{subtext}</Span>
                 {children}
             </div>
         </S.CardInner>
     );
-}
+});
 
 export default Card;

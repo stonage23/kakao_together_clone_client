@@ -3,6 +3,7 @@ import * as S from './Styled';
 import MindWether from 'components/Home/MindWether/MindWether';
 import DonationCard from './DonationCard';
 import CategoryContainer from './CategoryContainer';
+import FundraisingListContainer from './FundraisingList/FundraisingListContainer';
 
 
 
@@ -22,6 +23,7 @@ const Home = () => {
             {categoryList.map(item => (
               <CategoryContainer key={item.id} category={item.category} />
             ))}
+            <FundraisingListContainer />
           </S.SectionLeftLayout>
           <S.SectionRightLayout>
             <S.RightBannerContainer>

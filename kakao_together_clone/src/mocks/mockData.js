@@ -4,6 +4,7 @@ export const fundraisingMock = [
         "tagId": 1,
         "title": "자립준비청년 우한이, 사회 첫걸음에 날개asdfsadfsafas ddfasdfsaddf를 달아주세요g ㄴㅁㅇㅁㅇㅁㄴㅇㄴㅁ ㅁㄴㅇㄴㅁㅇㄴㅁㅇㄴㅁㅇ ㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇ ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇkgkkgkgkgkgkgkgk 가나다라 마바사 아자차카 타파하!",
         "agency": "남양주시 사회복지관 서부희망케어센터dkdkdkdkkdkdkdkdkdkdkdkdkdkkdkdkdkdk",
+        "text" : "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라만세. 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세. 남산위에 저 소나무 철갑을 두른듯. 바람서리 불변함은 우리 기상일세. 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세.",
         "min": 0,
         "max": 1000000,
         "now": 350000,

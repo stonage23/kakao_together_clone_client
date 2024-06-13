@@ -46,7 +46,7 @@ const SliderComponent = ({data}) => {
     ];
 
     const DynamicClampItem = (slide) => {
-        const { lineClamp, titleRef } = useDynamicClamp(slide.title, slide.content);
+        const { lineClamp, targetRef: titleRef } = useDynamicClamp(slide.title, 4, 5);
 
         const subtextStyles = {
             WebkitLineClamp: lineClamp,

@@ -27,9 +27,7 @@ const Fundraising = ({ fundraising }) => {
   } = fundraising;
   const progressPercentage = calculatePercentage(nowPrice, minPrice, maxPrice);
 
-  const { lineClamp, titleRef } = useDynamicClamp(cardTitle, cardSubtext);
-
-  console.log(lineClamp);
+  const { lineClamp, targetRef: titleRef } = useDynamicClamp(cardTitle, 2, 3);
 
   return (
     <S.FundraisingWrapper
@@ -40,7 +38,7 @@ const Fundraising = ({ fundraising }) => {
         title={cardTitle}
         subtext={cardSubtext}
         href={`/fundraisings/${fundraising.id}/story`}
-        titleRef={titleRef}
+        ref={titleRef}
       >
         <Progressbar now={nowPrice} min={minPrice} max={maxPrice}>
           <div>

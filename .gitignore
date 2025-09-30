@@ -1,0 +1,37 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# 이미지 및 파일
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# 빌드 파일 및 디렉토리
+/build
+
+# 환경 변수
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 내 파일
+*.dev.txt
+src/mocks
+.idea/
+
+# 로그 파일
+*.log
+
+# 확장 프로그램 설정 파일
+.prettierrc
+.vscode/
